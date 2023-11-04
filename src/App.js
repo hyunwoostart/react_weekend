@@ -11,12 +11,16 @@ import Youtube from './components/sub/youtube/Youtube';
 import { useMedia } from './hooks/useMedia';
 import './styles/Global.scss';
 import { Route } from 'react-router-dom';
+import News from './components/main/news/News';
 
 function App() {
 	return (
 		<main className={useMedia()}>
 			<Header />
-			<Route exact path='/' component={Visual} />
+			<Route exact path='/'>
+				<Visual />
+				<News />
+			</Route>
 			<Route path='/department' component={Department} />
 			<Route path='/community' component={Community} />
 			<Route path='/gallery' component={Gallery} />

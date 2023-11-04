@@ -12,7 +12,10 @@ function Comunity() {
 	};
 	const refInput = useRef(null);
 	const refTextarea = useRef(null);
+	const editInput = useRef(null);
+	const editTextarea = useRef(null);
 	const [Posts, setPosts] = useState(getLocalData());
+	const [Allowed, setAllowed] = useState(true);
 	console.log(Posts);
 
 	const resetPost = () => {
@@ -28,7 +31,11 @@ function Comunity() {
 		const korTime = new Date().getTime() + 1000 * 60 * 60 * 9;
 
 		setPosts([
-			{ title: refInput.current.value, content: refTextarea.current.value, date: new Date(korTime) },
+			{
+				title: refInput.current.value,
+				content: refTextarea.current.value,
+				date: new Date(korTime),
+			},
 			...Posts,
 		]);
 		resetPost();
@@ -39,6 +46,10 @@ function Comunity() {
 	};
 
 	const enableUpdate = (editIndex) => {
+		//Allowed값이 true일때에만 수정모드 진입가능하게 처리
+		if (!Allowed) return;
+		//일단 수정모드에 진입하면 Allowed값을 false로 변경해서 추가적으로 수정모드 진입불가처리
+		setAllowed(false);
 		setPosts(
 			//기존의 Posts배열을 반복돌면서 파라미터전달된 editIndex순번에 해다는 post객체에만 enableUpdate=true값을 추가한 객체의 배열값을 다시 기존 Posts에 변경
 			Posts.map((post, idx) => {
@@ -49,9 +60,30 @@ function Comunity() {
 	};
 
 	const disableUpdate = (cancelIndex) => {
+		//수정취소시 다시 Allowed값 true변경해서 수정모드 가능하게 변경
+		setAllowed(true);
 		setPosts(
 			Posts.map((post, idx) => {
 				if (cancelIndex === idx) post.enableUpdate = false;
+				return post;
+			})
+		);
+	};
+
+	const updatePost = (updateIndex) => {
+		if (!editInput.current.value.trim() || !editTextarea.current.value.trim())
+			return alert('수정할 글의 제목과 본문을 모두 입력하세요.');
+		//수정완료시에도 다시 Allowed값 true변경해서 수정모드 가능하게 변경
+		setAllowed(true);
+		setPosts(
+			Posts.map((post, idx) => {
+				//전달된 수정번호와 현재 반복도는 post순번이 같으면
+				if (updateIndex === idx) {
+					//수정모드의 폼요소값을 담아주고 enableUpdate값을 false로 변경해서 다시 출력모드 변경
+					post.title = editInput.current.value;
+					post.content = editTextarea.current.value;
+					post.enableUpdate = false;
+				}
 				return post;
 			})
 		);
@@ -66,7 +98,12 @@ function Comunity() {
 			<div className='wrap'>
 				<div className='inputBox'>
 					<input type='text' placeholder='Write Title' ref={refInput} />
-					<textarea cols='30' rows='5' placeholder='Write Content Message' ref={refTextarea}></textarea>
+					<textarea
+						cols='30'
+						rows='5'
+						placeholder='Write Content Message'
+						ref={refTextarea}
+					></textarea>
 
 					<nav>
 						<button onClick={resetPost}>
@@ -87,12 +124,12 @@ function Comunity() {
 							return (
 								<article key={idx}>
 									<div className='txt'>
-										<input type='text' defaultValue={post.title} />
-										<textarea defaultValue={post.content}></textarea>
+										<input type='text' defaultValue={post.title} ref={editInput} />
+										<textarea defaultValue={post.content} ref={editTextarea}></textarea>
 									</div>
 									<nav>
 										<button onClick={() => disableUpdate(idx)}>Cancel</button>
-										<button>Update</button>
+										<button onClick={() => updatePost(idx)}>Update</button>
 									</nav>
 								</article>
 							);

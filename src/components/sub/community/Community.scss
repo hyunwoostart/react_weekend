@@ -48,14 +48,17 @@
 			border-left: 1px solid #bbb;
 			display: flex;
 			flex-wrap: wrap;
-			justify-content: space-between;
+			justify-content: flex-start;
+			//사이간격을 변수값으로 연결
+			gap: var(--boxGap);
 
 			article {
-				width: 32%;
+				//넓이: (100% - 사이간격갯수*간격수치값) / 컬럼갯수
+				width: calc((100% - var(--boxGap) * (var(--countColumn) - 1)) / var(--countColumn));
 				height: 25vh;
 				background: #efefef;
 				padding: 20px;
-				margin-bottom: 20px;
+				//margin-bottom: 20px;
 				display: flex;
 				flex-wrap: wrap;
 				align-content: space-between;
@@ -79,6 +82,15 @@
 						font: 0.6rem/1 'arial';
 						color: orangered;
 					}
+
+					input {
+						border: none;
+						width: 100%;
+						font-size: 1.2rem;
+						color: #333;
+						padding-left: 3px 10px;
+						margin-bottom: 20px;
+					}
 				}
 				nav {
 					width: 100%;
@@ -98,6 +110,54 @@
 							color: orangered;
 						}
 					}
+				}
+			}
+		}
+	}
+}
+
+//laptop
+.laptop {
+	.community {
+		.wrap {
+			.showBox {
+				article {
+					width: calc((100% - var(--boxGap) * (var(--countColumn-2) - 1)) / var(--countColumn-2));
+				}
+			}
+		}
+	}
+}
+//tablet
+.tablet,
+.mobile {
+	.community {
+		.wrap {
+			.inputBox {
+				width: 100%;
+				padding-right: 0;
+				margin-bottom: 100px;
+			}
+			.showBox {
+				width: 100%;
+				border-left: none;
+				padding-left: 0;
+
+				article {
+					width: calc((100% - var(--boxGap) * (var(--countColumn-2) - 1)) / var(--countColumn-2));
+				}
+			}
+		}
+	}
+}
+
+//mobile
+.mobile {
+	.community {
+		.wrap {
+			.showBox {
+				article {
+					width: calc((100% - var(--boxGap) * (var(--countColumn-1) - 1)) / var(--countColumn-1));
 				}
 			}
 		}
