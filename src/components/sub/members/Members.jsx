@@ -16,6 +16,7 @@ export default function Members() {
 		comments: '',
 	});
 	const [Val, setVal] = useState(initVal.current);
+	const [Errs, setErrs] = useState({});
 
 	//value vs defultValue
 	//만약 실시간으로 바뀌는 값을 무조건 value props로 연결하고 onChange이벤트 연결
@@ -35,9 +36,24 @@ export default function Members() {
 		setVal({ ...Val, [name]: checkArr });
 	};
 
+	const check = (value) => {
+		const errs = {};
+		if (value.userid.length < 5) {
+			errs.userid = '아이디는 최소 5글자 입력하세요';
+		}
+		return errs;
+	};
+
 	useEffect(() => {
-		console.log(Val);
+		setErrs(check(Val));
 	}, [Val]);
+
+	// 인증 로직 흐름
+	// 1. onChange이벤트 발생시마다 handleChange, handleCheck를 이용해서 실시간으로 State값 갱신
+	// 2. 실시간으로 변경되는 State값을 check함수의 인수로 전달
+	// 3. check함수 내부적으로 전달되는 값의 형식에 따라서 인증로직을 구현
+	// 4. check함수 내부적으로 데이터 항목별로 인증에 실패하면 해당 name값을 키값으로 해서 에러 propety를 만들고 에러메세지 객체로 반환
+	// 5. check함수가 실행된 이후에 반환되는 err객체가 없으면 인증성공이고 err객체가 있으면 해당 에러 메세지를 출력
 
 	return (
 		<Layout title={'Members'}>
@@ -61,6 +77,7 @@ export default function Members() {
 												value={Val.userid}
 												onChange={handleChange}
 											/>
+											<p>{Errs?.userid}</p>
 										</td>
 										<td>
 											<input

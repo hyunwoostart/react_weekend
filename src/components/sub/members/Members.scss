@@ -27,6 +27,12 @@
 						padding: 30px 20px 10px;
 						position: relative;
 
+						p {
+							font-size: 0.7rem;
+							color: var(--pointColor);
+							font-family: '돋움';
+						}
+
 						&::after {
 							content: '';
 							display: block;
