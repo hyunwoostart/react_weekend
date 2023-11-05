@@ -15,6 +15,11 @@ export default function Members() {
 		comments: '',
 	});
 	const [Val, setVal] = useState(initVal.current);
+
+	const handleChange = (e) => {
+		console.log(e.target.value);
+		const { name, value } = e.target;
+	};
 	return (
 		<Layout title={'Members'}>
 			<div className='wrap'>
@@ -29,7 +34,13 @@ export default function Members() {
 								<tbody>
 									<tr>
 										<td>
-											<input type='text' name='userid' placeholder='User ID' />
+											<input
+												type='text'
+												name='userid'
+												placeholder='User ID'
+												value={Val.userid}
+												onChange={handleChange}
+											/>
 										</td>
 										<td>
 											<input type='text' name='email' placeholder='Email' />
