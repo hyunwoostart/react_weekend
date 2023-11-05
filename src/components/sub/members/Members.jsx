@@ -16,6 +16,10 @@ export default function Members() {
 	});
 	const [Val, setVal] = useState(initVal.current);
 
+	// value vs defultValue
+	// 만약 실시간으로 바뀌는 값을 무조건 value props로 연결하고 onChange이벤트 연결
+	// 바뀌지 않는 정적인 값을 연결시에-는 defaultValue props로 연결하고 onChange 이벤트 연결 불필요
+
 	// onChange 이벤트가 발생할때마다 해당 함수 호출
 	const handleChange = (e) => {
 		// 현재 입력하고 있는 가상돔요소의 name, value값을 비구조화할당으로 뽑아냄
