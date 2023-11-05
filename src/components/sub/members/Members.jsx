@@ -77,7 +77,7 @@ export default function Members() {
 												value={Val.userid}
 												onChange={handleChange}
 											/>
-											<p>{Errs?.userid}</p>
+											{Errs.userid && <p>{Errs.userid}</p>}
 										</td>
 										<td>
 											<input
