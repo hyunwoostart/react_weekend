@@ -18,10 +18,6 @@ export default function Members() {
 	const [Val, setVal] = useState(initVal.current);
 	const [Errs, setErrs] = useState({});
 
-	//value vs defultValue
-	//만약 실시간으로 바뀌는 값을 무조건 value props로 연결하고 onChange이벤트 연결
-	//바뀌지 않는 정적인 값을 연결시에는 defaultValue props로 연결하고 onChange 이벤트 연결 불필요
-
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setVal({ ...Val, [name]: value });
@@ -39,7 +35,13 @@ export default function Members() {
 	const check = (value) => {
 		const errs = {};
 		if (value.userid.length < 5) {
-			errs.userid = '아이디는 최소 5글자 입력하세요';
+			errs.userid = '아이디는 최소 5글자 이상 입력하세요.';
+		}
+		if (!value.gender) {
+			errs.gender = '성별을 선택해주세요.';
+		}
+		if (value.interest.length === 0) {
+			errs.interests = '취미를 하나이상 선택하세요.';
 		}
 		return errs;
 	};
@@ -48,12 +50,12 @@ export default function Members() {
 		setErrs(check(Val));
 	}, [Val]);
 
-	// 인증 로직 흐름
-	// 1. onChange이벤트 발생시마다 handleChange, handleCheck를 이용해서 실시간으로 State값 갱신
-	// 2. 실시간으로 변경되는 State값을 check함수의 인수로 전달
-	// 3. check함수 내부적으로 전달되는 값의 형식에 따라서 인증로직을 구현
-	// 4. check함수 내부적으로 데이터 항목별로 인증에 실패하면 해당 name값을 키값으로 해서 에러 propety를 만들고 에러메세지 객체로 반환
-	// 5. check함수가 실행된 이후에 반환되는 err객체가 없으면 인증성공이고 err객체가 있으면 해당 에러 메세지를 출력
+	//인증 로직 흐름
+	//1. onChange이벤트 발생시마다 handleChange, handleCheck를 이용해서 실시간으로 State값 갱신
+	//2. 실시간으로 변경되는 State값을 check함수의 인수로 전달
+	//3. check함수 내부적으로 전달되는 값의 형식에따서 인증로직을 구현
+	//4. check함수 내부적으로 데이터 항목별로 인증에 실해하면 해당 name값을 키값으로 해서 에러 property를 만들고 에러메세지 객체로 반환
+	//5. check함수가 실행된 이후에 반환되는 err객체가 없으면 인증성공이고 err객체가 있으면 해당 에러메세지를 출력
 
 	return (
 		<Layout title={'Members'}>
@@ -145,6 +147,7 @@ export default function Members() {
 												onChange={handleChange}
 											/>
 											<label htmlFor='male'>Male</label>
+											{Errs.gender && <p>{Errs.gender}</p>}
 										</td>
 									</tr>
 
@@ -186,6 +189,7 @@ export default function Members() {
 												onChange={handleCheck}
 											/>
 											<label htmlFor='game'>Game</label>
+											{Errs.interests && <p>{Errs.interests}</p>}
 										</td>
 									</tr>
 
