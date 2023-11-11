@@ -50,9 +50,11 @@ export default function Contact() {
 			<article id='map' ref={mapFrame}></article>
 
 			<ul className='branch'>
-				<li onClick={() => setIndex(0)}>삼성동 코엑스</li>
-				<li onClick={() => setIndex(1)}>넥슨 본사</li>
-				<li onClick={() => setIndex(2)}>서울 시청</li>
+				{info.current.map((el, idx) => (
+					<li key={idx} className={idx === Index ? 'on' : ''} onClick={() => setIndex(idx)}>
+						{el.title}
+					</li>
+				))}
 			</ul>
 		</Layout>
 	);
