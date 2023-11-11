@@ -7,7 +7,7 @@ export default function Contact() {
 	//api 적용할 요소도 가상돔이기 때문에 참조객체에 연결
 	const mapFrame = useRef(null);
 	const mapOption = {
-		center: new kakao.maps.LatLng(37.510635, 127.058025),
+		center: new kakao.maps.LatLng(37.51177006335203, 127.05745288988979),
 		level: 3,
 	};
 	const marker = new kakao.maps.Marker({
