@@ -4,28 +4,45 @@ import './Contact.scss';
 
 export default function Contact() {
 	const { kakao } = window;
-	//api 적용할 요소도 가상돔이기 때문에 참조객체에 연결
 	const mapFrame = useRef(null);
-	const mapOption = {
-		center: new kakao.maps.LatLng(37.51177006335203, 127.05745288988979),
-		level: 3,
-	};
 
-	useEffect(() => {
-		const map = new kakao.maps.Map(mapFrame.current, mapOption);
-		marker.setMap(map);
-	}, []);
-
-	// 마커이미지 인스턴스를 생성하기 위한 정보값들
-	const imgSrc = `${process.env.PUBLIC_URL}/img/marker1.png`;
-	const imgSize = new kakao.maps.Size(232, 99);
-	const imgPos = { offset: new kakao.maps.Point(116, 99) };
-	const markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize, imgPos);
+	const info = useRef([
+		{
+			title: '삼성역 코엑스',
+			latlng: new kakao.maps.LatLng(37.51100661425726, 127.06162026853143),
+			imgSrc: `${process.env.PUBLIC_URL}/img/marker1.png`,
+			imgSize: new kakao.maps.Size(232, 99),
+			imgPos: { offset: new kakao.maps.Point(116, 99) },
+		},
+		{
+			title: '넥슨 본사',
+			latlng: new kakao.maps.LatLng(37.40211707077346, 127.10344953763003),
+			imgSrc: `${process.env.PUBLIC_URL}/img/marker2.png`,
+			imgSize: new kakao.maps.Size(232, 99),
+			imgPos: { offset: new kakao.maps.Point(116, 99) },
+		},
+		{
+			title: '서울 시청',
+			latlng: new kakao.maps.LatLng(37.5662952, 126.9779451),
+			imgSrc: `${process.env.PUBLIC_URL}/img/marker3.png`,
+			imgSize: new kakao.maps.Size(232, 99),
+			imgPos: { offset: new kakao.maps.Point(116, 99) },
+		},
+	]);
 
 	const marker = new kakao.maps.Marker({
-		position: mapOption.center,
-		image: markerImage,
+		position: info.current[1].latlng,
+		image: new kakao.maps.MarkerImage(
+			info.current[1].imgSrc,
+			info.current[1].imgSize,
+			info.current[1].imgPos
+		),
 	});
+
+	useEffect(() => {
+		const map = new kakao.maps.Map(mapFrame.current, { center: info.current[1].latlng });
+		marker.setMap(map);
+	}, []);
 
 	return (
 		<Layout title={'Contact us'}>
