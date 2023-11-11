@@ -1,10 +1,11 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Contact.scss';
 
 export default function Contact() {
 	const { kakao } = window;
 	const mapFrame = useRef(null);
+	const [Index, setIndex] = useState(0);
 
 	const info = useRef([
 		{
@@ -31,22 +32,28 @@ export default function Contact() {
 	]);
 
 	const marker = new kakao.maps.Marker({
-		position: info.current[1].latlng,
+		position: info.current[Index].latlng,
 		image: new kakao.maps.MarkerImage(
-			info.current[1].imgSrc,
-			info.current[1].imgSize,
-			info.current[1].imgPos
+			info.current[Index].imgSrc,
+			info.current[Index].imgSize,
+			info.current[Index].imgPos
 		),
 	});
 
 	useEffect(() => {
-		const map = new kakao.maps.Map(mapFrame.current, { center: info.current[1].latlng });
+		const map = new kakao.maps.Map(mapFrame.current, { center: info.current[Index].latlng });
 		marker.setMap(map);
-	}, []);
+	}, [Index]);
 
 	return (
 		<Layout title={'Contact us'}>
 			<article id='map' ref={mapFrame}></article>
+
+			<ul className='branch'>
+				<li onClick={() => setIndex(0)}>삼성동 코엑스</li>
+				<li onClick={() => setIndex(1)}>넥슨 본사</li>
+				<li onClick={() => setIndex(2)}>서울 시청</li>
+			</ul>
 		</Layout>
 	);
 }
