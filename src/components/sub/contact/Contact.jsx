@@ -1,12 +1,14 @@
 import { useRef, useEffect, useState } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Contact.scss';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 
 export default function Contact() {
 	const { kakao } = window;
 	const mapFrame = useRef(null);
 	const mapInstance = useRef(null);
 	const [Index, setIndex] = useState(0);
+	const [Traffic, setTraffic] = useState(false);
 
 	const info = useRef([
 		{
@@ -16,6 +18,7 @@ export default function Contact() {
 			imgSize: new kakao.maps.Size(232, 99),
 			imgPos: { offset: new kakao.maps.Point(116, 99) },
 		},
+
 		{
 			title: '넥슨 본사',
 			latlng: new kakao.maps.LatLng(37.40211707077346, 127.10344953763003),
@@ -55,10 +58,15 @@ export default function Contact() {
 		window.addEventListener('resize', setCenter);
 	}, [Index]);
 
+	//교통정보 보기 토글 기능
 	useEffect(() => {
-		return () => {
-			window.removeEventListener('resize', setCenter);
-		};
+		Traffic
+			? mapInstance.current.addOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC)
+			: mapInstance.current.removeOverlayMapTypeId(kakao.maps.MapTypeId.TRAFFIC);
+	}, [Traffic]);
+
+	useEffect(() => {
+		return () => window.removeEventListener('resize', setCenter);
 	}, []);
 
 	return (
@@ -74,6 +82,9 @@ export default function Contact() {
 			</ul>
 
 			<button onClick={setCenter}>위치 초기화</button>
+			<button onClick={() => setTraffic(!Traffic)}>
+				{Traffic ? '교통정보 끄기' : '교통정보 보기'}
+			</button>
 		</Layout>
 	);
 }
