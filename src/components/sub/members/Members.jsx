@@ -118,11 +118,11 @@ export default function Members() {
 									<tr>
 										<td colSpan='2'>
 											<select name='edu' onChange={handleChange}>
-												<option defaultValue=''>Education</option>
-												<option defaultValue='elementary-school'>초등학교 졸업</option>
-												<option defaultValue='middle-school'>중학교 졸업</option>
-												<option defaultValue='high-school'>고등학교 졸업</option>
-												<option defaultValue='college'>대학교 졸업</option>
+												<option value=''>Education</option>
+												<option value='elementary-school'>초등학교 졸업</option>
+												<option value='middle-school'>중학교 졸업</option>
+												<option value='high-school'>고등학교 졸업</option>
+												<option value='college'>대학교 졸업</option>
 											</select>
 										</td>
 									</tr>
