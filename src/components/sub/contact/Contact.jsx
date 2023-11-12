@@ -52,10 +52,25 @@ export default function Contact() {
 
 		emailjs.sendForm('service_l76dw19', 'template_magnz0g', form.current, 'ojoroNYC5cWxmK1ra').then(
 			(result) => {
-				console.log(result.text);
+				alert('문의내용이 성공적으로 전달되었습니다.');
+				const [user, email] = form.current.querySelectorAll('input');
+				const txtArea = form.current.querySelector('textarea');
+
+				if (!user || !email || !txtArea)
+					return alert('이름, 답장받을 메일 주소, 문의내용을 모두 입력하세요.');
+
+				[(user, email, txtArea)].forEach((el) => (el.value = ''));
+
+				user.value = '';
+				email.value = '';
+				txtArea.value = '';
 			},
 			(error) => {
-				console.log(error.text);
+				alert('문의내용 전송에 실패했습니다.');
+				const [user, email] = form.current.querySelctorAll('input');
+				const txtArea = form.current.querySelctor('textarea');
+
+				[user, email, txtArea].forEach((el) => (el.value = ''));
 			}
 		);
 	};
@@ -114,6 +129,7 @@ export default function Contact() {
 					<input type='email' name='user_email' />
 					<label>Message</label>
 					<textarea name='message' />
+					<input type='reset' value='reset' />
 					<input type='submit' value='Send' />
 				</form>
 			</div>
