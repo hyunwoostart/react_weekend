@@ -1,12 +1,14 @@
 import { useRef, useEffect, useState } from 'react';
 import Layout from '../../common/layout/Layout';
 import './Contact.scss';
+import emailjs from '@emailjs/browser';
 
 export default function Contact() {
 	const { kakao } = window;
 	const mapFrame = useRef(null);
 	const viewFrame = useRef(null);
 	const mapInstance = useRef(null);
+	const form = useRef(null);
 	const [Index, setIndex] = useState(0);
 	const [Traffic, setTraffic] = useState(false);
 	const [View, setView] = useState(false);
@@ -44,6 +46,19 @@ export default function Contact() {
 			info.current[Index].imgPos
 		),
 	});
+
+	const sendEmail = (e) => {
+		e.preventDefault();
+
+		emailjs.sendForm('service_l76dw19', 'template_magnz0g', form.current, 'ojoroNYC5cWxmK1ra').then(
+			(result) => {
+				console.log(result.text);
+			},
+			(error) => {
+				console.log(error.text);
+			}
+		);
+	};
 
 	const roadView = () => {
 		//roadview setting
@@ -91,6 +106,18 @@ export default function Contact() {
 
 	return (
 		<Layout title={'Contact us'}>
+			<div className='mailBox'>
+				<form ref={form} onSubmit={sendEmail}>
+					<label>Name</label>
+					<input type='text' name='from_name' />
+					<label>Email</label>
+					<input type='email' name='user_email' />
+					<label>Message</label>
+					<textarea name='message' />
+					<input type='submit' value='Send' />
+				</form>
+			</div>
+
 			<div className='container'>
 				<article id='map' ref={mapFrame} className={View ? '' : 'on'}></article>
 				<article id='view' ref={viewFrame} className={View ? 'on' : ''}></article>
