@@ -15,7 +15,7 @@ export default function Contact() {
 
 	const info = useRef([
 		{
-			title: '삼성역 코엑스',
+			title: '삼성역 코엑스-집에서세팅',
 			latlng: new kakao.maps.LatLng(37.51100661425726, 127.06162026853143),
 			imgSrc: `${process.env.PUBLIC_URL}/img/marker1.png`,
 			imgSize: new kakao.maps.Size(232, 99),
