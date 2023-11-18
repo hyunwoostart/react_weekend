@@ -11,15 +11,14 @@ import Youtube from './components/sub/youtube/Youtube';
 import { useMedia } from './hooks/useMedia';
 import './styles/Global.scss';
 import { Route } from 'react-router-dom';
-import News from './components/main/news/News';
+import MainWrap from './components/main/mainWrap/MainWrap';
 
 function App() {
 	return (
 		<main className={useMedia()}>
 			<Header />
 			<Route exact path='/'>
-				<Visual />
-				<News />
+				<MainWrap />
 			</Route>
 			<Route path='/department' component={Department} />
 			<Route path='/community' component={Community} />
