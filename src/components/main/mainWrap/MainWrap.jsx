@@ -1,4 +1,5 @@
 import Banner from '../banner/Banner';
+import Btns from '../btns/Btns';
 import Info from '../info/Info';
 import News from '../news/News';
 import Visual from '../visual/Visual';
@@ -10,6 +11,7 @@ function MainWrap() {
 			<News />
 			<Banner />
 			<Info />
+			<Btns />
 		</main>
 	);
 }
