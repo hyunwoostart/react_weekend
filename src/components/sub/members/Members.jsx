@@ -1,5 +1,6 @@
 import Layout from '../../common/layout/Layout';
 import './Members.scss';
+import { useLocation } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 
 export default function Members() {
@@ -15,6 +16,7 @@ export default function Members() {
 	});
 	const [Val, setVal] = useState(initVal.current);
 	const [Errs, setErrs] = useState({});
+	console.log(useLocation);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -31,23 +33,46 @@ export default function Members() {
 	};
 
 	const check = (value) => {
+		const txt = /[a-zA-Z]/;
+		const num = /[0-9]/;
+		const spc = /[!@#$%^&*()_+]/;
+
 		console.log('check func called!!');
 		const errs = {};
+		//text 인증로직
 		if (value.userid.length < 5) {
 			errs.userid = '아이디는 최소 5글자 이상 입력하세요.';
 		}
+		//pwd1 인증로직
+		if (
+			value.pwd1.length < 5 ||
+			!txt.test(value.pwd1) ||
+			!num.test(value.pwd1) ||
+			!spc.test(value.pwd1)
+		) {
+			errs.pwd1 = '비밀번호는 특수문자,영문,숫자포함해서 5글자 이상 입력하세요.';
+		}
+		//pwd2 인증로직
+		if (value.pwd1 !== value.pwd2 || !value.pwd2) {
+			errs.pwd2 = '두개의 비밀번호를 같게 입력하세요';
+		}
+		//textarea 인증로직
 		if (value.comments.length < 10) {
 			errs.comments = '남기는 말은 최소 10글자 이상 입력하세요.';
 		}
+		//radio버튼 인증로직
 		if (!value.gender) {
 			errs.gender = '성별을 선택해주세요.';
 		}
+		//select요소 인증로직
 		if (!value.edu) {
 			errs.edu = '최종학력을 선택해주세요.';
 		}
+		//checkbox인증로직
 		if (value.interest.length === 0) {
 			errs.interests = '취미를 하나이상 선택하세요.';
 		}
+		//email형식 인증로직
 		if (!value.email || !/@/.test(value.email)) {
 			errs.email = '이메일주소에는 @를 포함해야 합니다.';
 		} else {
@@ -61,19 +86,20 @@ export default function Members() {
 				}
 			}
 		}
+
 		return errs;
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		if (Object.keys(check(Val)).length === 0) {
+			alert('회원가입을 축하합니다.');
+		}
 	};
 
 	useEffect(() => {
 		setErrs(check(Val));
 	}, [Val]);
-
-	//인증 로직 흐름
-	//1. onChange이벤트 발생시마다 handleChange, handleCheck를 이용해서 실시간으로 State값 갱신
-	//2. 실시간으로 변경되는 State값을 check함수의 인수로 전달
-	//3. check함수 내부적으로 전달되는 값의 형식에따서 인증로직을 구현
-	//4. check함수 내부적으로 데이터 항목별로 인증에 실해하면 해당 name값을 키값으로 해서 에러 property를 만들고 에러메세지 객체로 반환
-	//5. check함수가 실행된 이후에 반환되는 err객체가 없으면 인증성공이고 err객체가 있으면 해당 에러메세지를 출력
 
 	return (
 		<Layout title={'Members'}>
@@ -82,7 +108,7 @@ export default function Members() {
 					<h2>Join Members</h2>
 				</div>
 				<div className='formBox'>
-					<form>
+					<form onSubmit={handleSubmit}>
 						<fieldset>
 							<legend className='h'>회원가입 폼</legend>
 							<table>
@@ -121,6 +147,7 @@ export default function Members() {
 												value={Val.pwd1}
 												onChange={handleChange}
 											/>
+											{Errs.pwd1 && <p>{Errs.pwd1}</p>}
 										</td>
 										<td>
 											<input
@@ -130,6 +157,7 @@ export default function Members() {
 												value={Val.pwd2}
 												onChange={handleChange}
 											/>
+											{Errs.pwd2 && <p>{Errs.pwd2}</p>}
 										</td>
 									</tr>
 
@@ -230,8 +258,8 @@ export default function Members() {
 									</tr>
 									<tr>
 										<td colSpan='2'>
-											<button>Cancel</button>
-											<button>Submit</button>
+											<input type='reset' value='Cancel' />
+											<input type='submit' value='Submit' />
 										</td>
 									</tr>
 								</tbody>

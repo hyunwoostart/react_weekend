@@ -31,6 +31,7 @@
 							font-size: 0.7rem;
 							color: var(--pointColor);
 							font-family: '돋움';
+							margin-top: 8px;
 						}
 
 						&::after {
@@ -72,6 +73,12 @@
 							border: none;
 							font-size: 1rem;
 							color: #fff;
+							cursor: pointer;
+							transition: 0.5s;
+
+							&:hover {
+								background-color: var(--pointColor);
+							}
 						}
 					}
 
