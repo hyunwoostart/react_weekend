@@ -2,9 +2,9 @@ import './Header.scss';
 import { NavLink, Link } from 'react-router-dom';
 import { HiBars4 } from 'react-icons/hi2';
 
-export default function Header() {
+export default function Header({ isMain }) {
 	return (
-		<header>
+		<header className={isMain ? 'main' : ''}>
 			<h1>
 				<Link to='/'>DCODELAB</Link>
 			</h1>
