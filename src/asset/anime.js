@@ -1,5 +1,5 @@
 import BezierEasing from 'bezier-easing';
-export class Anime {
+export default class Anime {
 	#defOpt = { duration: 500, callback: null, easeType: 'linear' };
 
 	//인스턴스 생성시 옵션값 전달 및 속성값 보정함수 반복 호출

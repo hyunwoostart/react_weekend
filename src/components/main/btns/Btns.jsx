@@ -1,5 +1,6 @@
 import './Btns.scss';
 import { useRef, useEffect } from 'react';
+import Anime from '../../../asset/anime.js';
 
 function Btns() {
 	//활성화순번, 버튼 그룹요소, section그룹요소가 담길 참조 객체 생성
@@ -16,6 +17,14 @@ function Btns() {
 				btns.current.children[idx].classList.add('on');
 			}
 		});
+	};
+
+	const handleClick = (idx) => {
+		new Anime(
+			window,
+			{ scroll: secs.current[idx].offsetTop },
+			{ duration: 500, easeType: 'ease1' }
+		);
 	};
 
 	//컴포넌트 마운트시
@@ -38,7 +47,9 @@ function Btns() {
 			{Array(num.current)
 				.fill()
 				.map((_, idx) => {
-					return <li key={idx} className={idx === 0 ? 'on' : ''}></li>;
+					return (
+						<li key={idx} className={idx === 0 ? 'on' : ''} onClick={() => handleClick(idx)}></li>
+					);
 				})}
 		</ul>
 	);
