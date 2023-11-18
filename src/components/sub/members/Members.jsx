@@ -1,10 +1,8 @@
-import { useSplitText } from '../../../hooks/useSplitText';
 import Layout from '../../common/layout/Layout';
 import './Members.scss';
 import { useState, useRef, useEffect } from 'react';
 
 export default function Members() {
-	console.log('re-render');
 	const initVal = useRef({
 		userid: '',
 		email: '',
@@ -33,15 +31,33 @@ export default function Members() {
 	};
 
 	const check = (value) => {
+		console.log('check func called!!');
 		const errs = {};
 		if (value.userid.length < 5) {
 			errs.userid = '아이디는 최소 5글자 이상 입력하세요.';
 		}
+		if (value.comments.length < 10) {
+			errs.comments = '남기는 말은 최소 10글자 이상 입력하세요.';
+		}
 		if (!value.gender) {
 			errs.gender = '성별을 선택해주세요.';
 		}
+		if (!value.edu) {
+			errs.edu = '최종학력을 선택해주세요.';
+		}
 		if (value.interest.length === 0) {
 			errs.interests = '취미를 하나이상 선택하세요.';
+		}
+		if (!value.email || !/@/.test(value.email)) {
+			errs.email = '이메일주소에는 @를 포함해야 합니다.';
+		} else {
+			if (!value.email.split('@')[0] || !value.email.split('@')[1]) {
+				errs.email = '@앞뒤로 문자값이 있어야 합니다.';
+			} else {
+				if (!value.email.split('@')[1].split('.')[0] || !value.email.split('@')[1].split('.')[1]) {
+					errs.email = '이메일 .앞뒤로 문자값이 있어야 합니다.';
+				}
+			}
 		}
 		return errs;
 	};
@@ -82,13 +98,8 @@ export default function Members() {
 											{Errs.userid && <p>{Errs.userid}</p>}
 										</td>
 										<td>
-											<input
-												type='text'
-												name='email'
-												placeholder='Email'
-												value={Val.email}
-												onChange={handleChange}
-											/>
+											<input type='text' name='email' placeholder='Email' value={Val.email} onChange={handleChange} />
+											{Errs.email && <p>{Errs.email}</p>}
 										</td>
 									</tr>
 
@@ -118,34 +129,24 @@ export default function Members() {
 									<tr>
 										<td colSpan='2'>
 											<select name='edu' onChange={handleChange}>
+												{/* 어차피 onChange이벤트가 연결되어 있으므로 value값으로 등록 */}
 												<option value=''>Education</option>
 												<option value='elementary-school'>초등학교 졸업</option>
 												<option value='middle-school'>중학교 졸업</option>
 												<option value='high-school'>고등학교 졸업</option>
 												<option value='college'>대학교 졸업</option>
 											</select>
+											{Errs.edu && <p>{Errs.edu}</p>}
 										</td>
 									</tr>
 
 									{/* gender (handleChange) */}
 									<tr>
 										<td colSpan='2'>
-											<input
-												type='radio'
-												defaultValue='female'
-												id='female'
-												name='gender'
-												onChange={handleChange}
-											/>
+											<input type='radio' defaultValue='female' id='female' name='gender' onChange={handleChange} />
 											<label htmlFor='female'>Female</label>
 
-											<input
-												type='radio'
-												defaultValue='male'
-												id='male'
-												name='gender'
-												onChange={handleChange}
-											/>
+											<input type='radio' defaultValue='male' id='male' name='gender' onChange={handleChange} />
 											<label htmlFor='male'>Male</label>
 											{Errs.gender && <p>{Errs.gender}</p>}
 										</td>
@@ -154,13 +155,7 @@ export default function Members() {
 									{/* interests (handleCheck) */}
 									<tr>
 										<td colSpan='2'>
-											<input
-												type='checkbox'
-												name='interest'
-												id='sports'
-												defaultValue='sports'
-												onChange={handleCheck}
-											/>
+											<input type='checkbox' name='interest' id='sports' defaultValue='sports' onChange={handleCheck} />
 											<label htmlFor='sports'>Sports</label>
 
 											<input
@@ -172,22 +167,10 @@ export default function Members() {
 											/>
 											<label htmlFor='reading'>Reading</label>
 
-											<input
-												type='checkbox'
-												name='interest'
-												id='music'
-												defaultValue='music'
-												onChange={handleCheck}
-											/>
+											<input type='checkbox' name='interest' id='music' defaultValue='music' onChange={handleCheck} />
 											<label htmlFor='music'>Music</label>
 
-											<input
-												type='checkbox'
-												name='interest'
-												id='game'
-												defaultValue='game'
-												onChange={handleCheck}
-											/>
+											<input type='checkbox' name='interest' id='game' defaultValue='game' onChange={handleCheck} />
 											<label htmlFor='game'>Game</label>
 											{Errs.interests && <p>{Errs.interests}</p>}
 										</td>
@@ -204,12 +187,13 @@ export default function Members() {
 												value={Val.comments}
 												onChange={handleChange}
 											></textarea>
+											{Errs.comments && <p>{Errs.comments}</p>}
 										</td>
 									</tr>
 									<tr>
 										<td colSpan='2'>
-											<button>cancel</button>
-											<button>submit</button>
+											<button>Cancel</button>
+											<button>Submit</button>
 										</td>
 									</tr>
 								</tbody>
