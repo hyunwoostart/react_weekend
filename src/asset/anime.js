@@ -1,4 +1,5 @@
 import BezierEasing from 'bezier-easing';
+
 export default class Anime {
 	#defOpt = { duration: 500, callback: null, easeType: 'linear' };
 
@@ -52,12 +53,10 @@ export default class Anime {
 			currentValue = getComputedStyle(this.selector)[key];
 			currentValue = this.colorToArray(currentValue);
 			value = this.hexToRgb(value);
-			value !== currentValue &&
-				requestAnimationFrame((time) => this.run(time, key, currentValue, value, type));
+			value !== currentValue && requestAnimationFrame((time) => this.run(time, key, currentValue, value, type));
 		}
 		if (type === 'basic') {
-			value !== currentValue &&
-				requestAnimationFrame((time) => this.run(time, key, currentValue, value, type));
+			value !== currentValue && requestAnimationFrame((time) => this.run(time, key, currentValue, value, type));
 		}
 	}
 
@@ -68,9 +67,7 @@ export default class Anime {
 
 		progress < 1
 			? ['percent', 'color', 'basic'].map(
-					(el) =>
-						type === el &&
-						requestAnimationFrame((time) => this.run(time, key, currentValue, value, type))
+					(el) => type === el && requestAnimationFrame((time) => this.run(time, key, currentValue, value, type))
 			  )
 			: this.callback && this.callback();
 	}
@@ -91,8 +88,7 @@ export default class Anime {
 		};
 
 		Object.keys(easingPresets).map(
-			(key) =>
-				this.easeType === key && (easingProgress = BezierEasing(...easingPresets[key])(progress))
+			(key) => this.easeType === key && (easingProgress = BezierEasing(...easingPresets[key])(progress))
 		);
 		return [
 			progress,
@@ -105,8 +101,7 @@ export default class Anime {
 	//type에 따라서 넘어온 result값을 실제 DOM의 스타일 객체에 연결
 	setValue(key, result, type) {
 		if (type === 'percent') this.selector.style[key] = result + '%';
-		else if (type === 'color')
-			this.selector.style[key] = `rgb(${result[0]},${result[1]},${result[2]})`;
+		else if (type === 'color') this.selector.style[key] = `rgb(${result[0]},${result[1]},${result[2]})`;
 		else if (key === 'opacity') this.selector.style[key] = result;
 		else if (key === 'scroll') this.selector.scroll(0, result);
 		else this.selector.style[key] = result + 'px';
