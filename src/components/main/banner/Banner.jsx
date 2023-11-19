@@ -1,3 +1,4 @@
+import { useGetCurrentScroll } from '../../../hooks/useGetCurrentScroll';
 import './Banner.scss';
 import { useRef, useEffect } from 'react';
 
@@ -5,11 +6,10 @@ export default function Banner() {
 	console.log('Banner Called');
 	const currentEl = useRef(null);
 	const titleEl = useRef(null);
+	const getScroll = useGetCurrentScroll();
 
 	const handleScroll = () => {
-		const scroll = window.scrollY;
-		const modifiedScroll = scroll - currentEl.current?.offsetTop;
-		console.log(modifiedScroll);
+		const modifiedScroll = getScroll(currentEl);
 		titleEl.current.style.transform = `translateX(${modifiedScroll}px)`;
 	};
 
