@@ -3,7 +3,6 @@ import './Banner.scss';
 import { useRef, useEffect } from 'react';
 
 export default function Banner() {
-	console.log('Banner Called');
 	const currentEl = useRef(null);
 	const titleEl = useRef(null);
 	const getScroll = useGetCurrentScroll();
