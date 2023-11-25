@@ -1,3 +1,4 @@
+import { useDebounce } from '../../../hooks/useDebounce';
 import Layout from '../../common/layout/Layout';
 import './Members.scss';
 import { useState, useRef, useEffect } from 'react';
@@ -17,6 +18,10 @@ export default function Members() {
 	});
 	const [Val, setVal] = useState(initVal.current);
 	const [Errs, setErrs] = useState({});
+
+	//단기간에 자주바뀌는 state값을 useDebounce hook의 인수로 전달하면
+	//debouncing이 적용된 새로운 state반환
+	const DebouncedVal = useDebounce(Val);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -100,8 +105,11 @@ export default function Members() {
 	};
 
 	useEffect(() => {
-		setErrs(check(Val));
-	}, [Val]);
+		//debouncing이 적용된 state를 의존성 배열에 등록하면
+		//해당 state가 계속 변경되는 중에는 호출을 막아주고
+		//변경이 끝나고 0.5초 지나야지만 호출됨
+		setErrs(check(DebouncedVal));
+	}, [DebouncedVal]);
 
 	return (
 		<Layout title={'Members'}>
