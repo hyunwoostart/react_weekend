@@ -1,9 +1,10 @@
 import Layout from '../../common/layout/Layout';
 import './Members.scss';
-import { useLocation } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export default function Members() {
+	const history = useHistory();
 	const initVal = useRef({
 		userid: '',
 		email: '',
@@ -16,7 +17,6 @@ export default function Members() {
 	});
 	const [Val, setVal] = useState(initVal.current);
 	const [Errs, setErrs] = useState({});
-	console.log(useLocation);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -33,6 +33,7 @@ export default function Members() {
 	};
 
 	const check = (value) => {
+		console.log('check');
 		const txt = /[a-zA-Z]/;
 		const num = /[0-9]/;
 		const spc = /[!@#$%^&*()_+]/;
@@ -94,6 +95,7 @@ export default function Members() {
 		e.preventDefault();
 		if (Object.keys(check(Val)).length === 0) {
 			alert('회원가입을 축하합니다.');
+			history.push('/');
 		}
 	};
 
@@ -271,3 +273,9 @@ export default function Members() {
 		</Layout>
 	);
 }
+
+/*
+	throttle vs debounce
+	throttle : 물리적으로 핸들러함수 호출자체를 일정횟수로 줄임
+	debounce : 특정 이벤트가 단시간에 반복으로 계속 발생하고 있으면 핸들러함수 호출 자체를 계속 뒤로 밀면서 호출 막음
+*/
