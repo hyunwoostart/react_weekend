@@ -2,6 +2,14 @@ import './Btns.scss';
 import { useRef, useEffect, useState } from 'react';
 import Anime from '../../../asset/anime.js';
 
+// document.querySelector vs useRef (DOM) (참고로 둘다 realDOM을 제어)
+// document.querySelector : 이미 이전 렌더링 사이클에서 돔으로 변경된 신뢰할 수 없는 예전 돔
+// useRef : 똑같이 RealDOM을 담긴하지만 앞으로 realDOM으로 변화될 신뢰할 수 있는 최신 돔 상태
+
+// State vs useRef 해당 값의 변경 및 적용 시점
+// state값은 해당 렌더링 사이트에서 값이 변경되는 것은 맞지만 실제 그 값이 적용되는 시점은 다음번 렌더링 사이클
+// useRef은 해당 렌더링사이클에 값도 변경되고 바로 반영도 됨
+
 function Btns() {
 	//section의 전체 갯수가 담길 값을 참조객체에서 state로 변경
 	//Num값 변경시 컴포넌트가 재랜더링되어야 버튼이 생기므로 state처리
