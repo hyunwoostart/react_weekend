@@ -1,37 +1,30 @@
 import './Btns.scss';
 import { useRef, useEffect, useState } from 'react';
 import Anime from '../../../asset/anime.js';
-//import { useThrottle } from '../../../hooks/useThrottle.js';
+import { useThrottle } from '../../../hooks/useThrottle.js';
 
 function Btns() {
-	console.log('btns');
 	const [Num, setNum] = useState(0);
 	const secs = useRef(null);
 	const btns = useRef(null);
-	const eventBlocker = useRef(null);
-	console.log(eventBlocker.current);
 
 	const activation = () => {
-		//eventBlockr참조객체 값이 있으면 return 로 함수 종료
-		if (eventBlocker.current) return;
+		console.log('activation');
+		const scroll = window.scrollY;
+		secs.current.forEach((el, idx) => {
+			if (scroll >= el.offsetTop - window.innerHeight / 2) {
+				Array.from(btns.current.children).forEach((btn) => btn.classList.remove('on'));
+				btns.current.children[idx]?.classList.add('on');
 
-		//activation함수를 setTimeout을 묶어놓은 다음에 setTimeout이 끝나야지만 eventBlocker값을 비움으로써
-		//강제로 0.5초동안 함수 호출을 막아줌
-		eventBlocker.current = setTimeout(() => {
-			console.log('activation');
-			const scroll = window.scrollY;
-			secs.current.forEach((el, idx) => {
-				if (scroll >= el.offsetTop - window.innerHeight / 2) {
-					Array.from(btns.current.children).forEach((btn) => btn.classList.remove('on'));
-					btns.current.children[idx]?.classList.add('on');
-
-					secs.current.forEach((sec) => sec.classList.remove('on'));
-					secs.current[idx].classList.add('on');
-				}
-			});
-			eventBlocker.current = null;
-		}, 500);
+				secs.current.forEach((sec) => sec.classList.remove('on'));
+				secs.current[idx].classList.add('on');
+			}
+		});
 	};
+
+	//useThrottle커스텀훅의 인수로 activation함수를 전달해서
+	//throttle이 적용된 activation2라는 함수를 반환받음
+	const activation2 = useThrottle(activation);
 
 	const handleClick = (idx) => {
 		new Anime(window, { scroll: secs.current[idx].offsetTop }, { duration: 500 });
@@ -40,10 +33,11 @@ function Btns() {
 	useEffect(() => {
 		secs.current = btns.current.parentElement.querySelectorAll('.myScroll');
 		setNum(secs.current.length);
-		window.addEventListener('scroll', activation);
+		//scroll이벤트는 throttle이 적용된 activation2함수를 연결
+		window.addEventListener('scroll', activation2);
 
 		return () => {
-			window.removeEventListener('scroll', activation);
+			window.removeEventListener('scroll', activation2);
 		};
 	}, []);
 
