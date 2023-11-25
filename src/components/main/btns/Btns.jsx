@@ -39,7 +39,7 @@ function Btns() {
 		return () => {
 			window.removeEventListener('scroll', activation2);
 		};
-	}, []);
+	}, [activation2]);
 
 	useEffect(activation, [Num]);
 
