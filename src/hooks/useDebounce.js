@@ -9,8 +9,8 @@ export const useDebounce = (value) => {
 	//인수로 받은 state값이 변경될떄마다 setTimeout호출을 계속 초기화
 	clearTimeout(eventBlocker.current);
 
-	//아래 setInterval에서 인해서 원래 state값이 0.5초안에 계속 변경되는 중이면
-	//새로운 state로 옮겨담지 않다고 변경되는 값이 멈춘되 0.5초가 지나야지만 새로운 state로 옮겨주고
+	//아래 setIntimeout에 의해서 원래 state값이 0.5초안에 계속 변경되는 중이면
+	//새로운 state로 옮겨담지 않고 변경되는 값이 멈춘 뒤, 0.5초가 지나야지만 새로운 state로 옮겨줌 (debouncing처리)
 	eventBlocker.current = setTimeout(() => {
 		setDebouncedval(value);
 	}, 500);
