@@ -1,14 +1,16 @@
 import Layout from '../../common/layout/Layout';
 import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 function Detail() {
 	const [Data, setData] = useState(null);
 
 	const { id } = useParams();
+	const params = useRef(id);
+
 	useEffect(() => {
 		const api_key = 'AIzaSyDC60bIIkAJFzy7ji4a0Eo3AX6tYudhe1w';
-		const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&id=${id}`;
+		const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&id=${params.current}`;
 		//fetchData(baseURL, setVids);
 
 		fetch(baseURL)
