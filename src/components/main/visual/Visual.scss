@@ -1,12 +1,11 @@
 figure {
 	width: 100%;
 	height: 100vh;
-	background: lightcyan;
-	background: #333;
+	background: aqua;
 	position: relative;
 	z-index: 1;
 	overflow: hidden;
-	padding: 10vh 0px;
+	padding: 25vh 0px 15vh;
 
 	.swiper {
 		height: 100%;

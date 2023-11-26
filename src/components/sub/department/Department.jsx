@@ -9,15 +9,16 @@ export default function Department() {
 	const [History, setHistory] = useState([]);
 
 	const fetchDepartment = async () => {
-		const data = await fetch(`${path}/DB/history.json`);
-		const json = await data.json();
-		setHistory(json.history);
-	};
-
-	const fetchHistory = async () => {
 		const data = await fetch(`${path}/DB/department.json`);
 		const json = await data.json();
 		setDepartment(json.members);
+	};
+
+	const fetchHistory = async () => {
+		const data = await fetch(`${path}/DB/history.json`);
+		const json = await data.json();
+
+		setHistory(json.history);
 	};
 
 	useEffect(() => {
