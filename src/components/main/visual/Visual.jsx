@@ -33,7 +33,7 @@ export default function Visual() {
 
 	return (
 		<figure className='myScroll'>
-			<Swiper spaceBetween={50} slidesPerView={3} loop={true}>
+			<Swiper spaceBetween={50} slidesPerView={3} loop={true} centeredSlides={true}>
 				{SlideData.map((data, idx) => {
 					return (
 						<SwiperSlide key={idx}>
