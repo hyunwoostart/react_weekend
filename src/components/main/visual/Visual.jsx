@@ -36,6 +36,9 @@ export default function Visual() {
 				loop={true}
 				centeredSlides={true}
 				autoplay={{ delay: 2000, disableOnInteraction: true }}
+				onSlideChange={(el) => {
+					console.log(el);
+				}}
 			>
 				{SlideData.map((data, idx) => {
 					if (idx >= 5) return null;
