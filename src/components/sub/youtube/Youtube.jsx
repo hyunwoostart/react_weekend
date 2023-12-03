@@ -1,7 +1,7 @@
 import Layout from '../../common/layout/Layout';
+import './Youtube.scss';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import './Youtube.scss';
 
 export default function Youtube() {
 	const [Vids, setVids] = useState([]);
@@ -33,7 +33,7 @@ export default function Youtube() {
 
 						<div className='txt'>
 							<p>{desc.length > 200 ? desc.substr(0, 200) + '...' : desc}</p>
-							<div className='info'>
+							<div className='infoBox'>
 								<span>{date.split('-').join('.')}</span>
 								<em>{time.split('Z')[0]}</em>
 							</div>

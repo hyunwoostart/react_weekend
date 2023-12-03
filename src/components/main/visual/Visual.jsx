@@ -11,13 +11,10 @@ export default function Visual() {
 	const fetchData = async () => {
 		const data = await fetch(`${path.current}/DB/department.json`);
 		const json = await data.json();
-		console.log(json.members);
 		setSlideData(json.members);
 	};
 
 	useEffect(() => {
-		//외부데이터 fetching (web api의 기능을 필요로)
-		//가상돔에 이벤트 연결 혹은 추가 속성 (web api의 기능을 필요로)
 		fetchData();
 	}, []);
 
@@ -29,9 +26,10 @@ export default function Visual() {
 				slidesPerView={3}
 				loop={true}
 				centeredSlides={true}
-				autoplay={{ delay: 2000, disableOnInteraction: false }}
+				autoplay={{ delay: 2000, disableOnInteraction: true }}
 			>
 				{SlideData.map((data, idx) => {
+					if (idx >= 5) return null;
 					return (
 						<SwiperSlide key={idx}>
 							<div className='pic'>
