@@ -34,6 +34,7 @@ export default function Visual() {
 						<SwiperSlide key={idx}>
 							<div className='pic'>
 								<img src={`${path.current}/img/${data.pic}`} alt={data.name} />
+								<img src={`${path.current}/img/${data.pic}`} alt={data.name} />
 							</div>
 						</SwiperSlide>
 					);
