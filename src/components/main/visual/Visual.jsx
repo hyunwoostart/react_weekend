@@ -2,7 +2,8 @@ import './Visual.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper';
 import 'swiper/css';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Visual() {
 	const [Index, setIndex] = useState(0);
@@ -32,9 +33,9 @@ export default function Visual() {
 						return (
 							<li key={idx} className={idx === Index ? 'on' : ''}>
 								<h3>{tit.snippet.title}</h3>
-								<span>
+								<Link to={`/detail/${tit.id}`}>
 									<em>View Detail</em>
-								</span>
+								</Link>
 							</li>
 						);
 					})}
