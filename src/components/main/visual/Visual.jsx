@@ -20,6 +20,15 @@ export default function Visual() {
 
 	return (
 		<figure className='myScroll'>
+			<div className='txtBox'>
+				<ul>
+					{SlideData.map((tit, idx) => {
+						if (idx >= 5) return null;
+						return <li key={idx}>{tit.name}</li>;
+					})}
+				</ul>
+			</div>
+
 			<Swiper
 				modules={[Autoplay]}
 				spaceBetween={50}
