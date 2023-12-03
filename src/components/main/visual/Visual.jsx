@@ -8,7 +8,6 @@ export default function Visual() {
 	const [Index, setIndex] = useState(0);
 
 	const [SlideData, setSlideData] = useState([]);
-	const path = useRef(process.env.PUBLIC_URL);
 
 	const fetchYoutube = async () => {
 		const api_key = process.env.REACT_APP_YOUTUBE_KEY;
@@ -32,7 +31,10 @@ export default function Visual() {
 						if (idx >= 5) return null;
 						return (
 							<li key={idx} className={idx === Index ? 'on' : ''}>
-								{tit.snippet.title}
+								<h3>{tit.snippet.title}</h3>
+								<span>
+									<em>View Detail</em>
+								</span>
 							</li>
 						);
 					})}
