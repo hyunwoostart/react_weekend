@@ -73,6 +73,7 @@ export default function Visual() {
 									<img src={data.snippet.thumbnails.standard.url} alt={data.snippet.title} />
 								</p>
 							</div>
+							<h3>{data.snippet.title}</h3>
 						</SwiperSlide>
 					);
 				})}
