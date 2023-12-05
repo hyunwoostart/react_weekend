@@ -1,4 +1,4 @@
-import { useSplitText } from '../../../hooks/useSplitText';
+import { useSplitText } from '../../../hooks/useText.js';
 import './Layout.scss';
 import { useEffect, useRef } from 'react';
 

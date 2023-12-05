@@ -1,3 +1,4 @@
+import { useCustomText } from '../../../hooks/useText';
 import Layout from '../../common/layout/Layout';
 import './Youtube.scss';
 import { useState, useEffect } from 'react';
@@ -5,6 +6,8 @@ import { Link } from 'react-router-dom';
 
 export default function Youtube() {
 	const [Vids, setVids] = useState([]);
+	const shortenText = useCustomText('shorten');
+	const changeText = useCustomText('combined');
 
 	const fetchYoutube = async () => {
 		const api_key = process.env.REACT_APP_YOUTUBE_KEY;
@@ -23,25 +26,26 @@ export default function Youtube() {
 	return (
 		<Layout title={'Youtube'}>
 			{Vids.map((data, idx) => {
-				const title = data.snippet.title;
-				const desc = data.snippet.description;
 				const [date, time] = data.snippet.publishedAt.split('T');
 
 				return (
 					<article key={idx}>
-						<h2>{title}</h2>
+						<h2>{shortenText(data.snippet.title, 150)}</h2>
 
 						<div className='txt'>
-							<p>{desc.length > 200 ? desc.substr(0, 200) + '...' : desc}</p>
+							<p>{shortenText(data.snippet.description, 200)}</p>
 							<div className='infoBox'>
-								<span>{date.split('-').join('.')}</span>
+								<span>{changeText(date, '.')}</span>
 								<em>{time.split('Z')[0]}</em>
 							</div>
 						</div>
 
 						<div className='pic'>
 							<Link to={`/detail/${data.id}`}>
-								<img src={data.snippet.thumbnails.standard.url} alt={data.snippet.title} />
+								<img
+									src={data.snippet.thumbnails.standard.url}
+									alt={data.snippet.title}
+								/>
 							</Link>
 						</div>
 					</article>

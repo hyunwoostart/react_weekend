@@ -4,11 +4,12 @@ import { Autoplay } from 'swiper';
 import 'swiper/css';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useCustomText } from '../../../hooks/useText';
 
 export default function Visual() {
 	const [Index, setIndex] = useState(0);
-
 	const [SlideData, setSlideData] = useState([]);
+	const shortenText = useCustomText('shorten');
 
 	const fetchYoutube = async () => {
 		const api_key = process.env.REACT_APP_YOUTUBE_KEY;
@@ -32,7 +33,7 @@ export default function Visual() {
 						if (idx >= 5) return null;
 						return (
 							<li key={idx} className={idx === Index ? 'on' : ''}>
-								<h3>{tit.snippet.title}</h3>
+								<h3>{shortenText(tit.snippet.title, 50)}</h3>
 								<Link to={`/detail/${tit.id}`}>
 									<em>View Detail</em>
 								</Link>
@@ -67,11 +68,17 @@ export default function Visual() {
 						<SwiperSlide key={idx}>
 							<div className='pic'>
 								<p>
-									<img src={data.snippet.thumbnails.standard.url} alt={data.snippet.title} />
+									<img
+										src={data.snippet.thumbnails.standard.url}
+										alt={data.snippet.title}
+									/>
 								</p>
 
 								<p>
-									<img src={data.snippet.thumbnails.standard.url} alt={data.snippet.title} />
+									<img
+										src={data.snippet.thumbnails.standard.url}
+										alt={data.snippet.title}
+									/>
 								</p>
 							</div>
 							<h3>{data.snippet.title}</h3>
