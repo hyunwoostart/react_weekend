@@ -3,6 +3,10 @@ $mobile: 539px;
 
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
 
+* {
+	transition: color 0.5s, background-color 0.5s;
+}
+
 :root {
 	--baseFont: 'Nanum Myeongjo', 'arial', '돋움';
 	--baseColor: #111;
@@ -19,6 +23,7 @@ $mobile: 539px;
 
 .dark {
 	--baseColor: #fff;
+	--baseColor-code: 239, 239, 239;
 	--bgColor: #222;
 	--bgColor-code: 34, 34, 34;
 }

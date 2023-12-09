@@ -2,7 +2,7 @@ import './Header.scss';
 import { NavLink, Link } from 'react-router-dom';
 import { HiBars4 } from 'react-icons/hi2';
 
-export default function Header({ isMain }) {
+export default function Header({ isMain, IsDark, setIsDark }) {
 	return (
 		<header className={isMain ? 'main' : ''}>
 			<h1>
@@ -41,6 +41,10 @@ export default function Header({ isMain }) {
 					</NavLink>
 				</li>
 			</ul>
+
+			<div className='themeBox' onClick={() => setIsDark(!IsDark)}>
+				<div className='ball'>테마버튼</div>
+			</div>
 
 			<HiBars4 fontSize={20} color={'#777'} className='bars' />
 		</header>
