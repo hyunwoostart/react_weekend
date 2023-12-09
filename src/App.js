@@ -1,6 +1,5 @@
 import Footer from './components/common/footer/Footer';
 import Header from './components/common/header/Header';
-import Visual from './components/main/visual/Visual';
 import Contact from './components/sub/contact/Contact';
 import Department from './components/sub/department/Department';
 import Community from './components/sub/community/Community';

@@ -5,7 +5,8 @@ import { useGetCurrentScroll } from '../../../hooks/useGetCurrentScroll';
 function Info() {
 	const currentEl = useRef(null);
 	const boxEl = useRef(null);
-	const getScroll = useGetCurrentScroll();
+	const scrollFrame = currentEl.current?.closest('.wrap');
+	const getScroll = useGetCurrentScroll(scrollFrame);
 
 	const handleClick = useCallback(() => {
 		const modifiedScroll = getScroll(currentEl);
@@ -16,9 +17,9 @@ function Info() {
 	}, [getScroll]);
 
 	useEffect(() => {
-		window.addEventListener('scroll', handleClick);
-		return () => window.removeEventListener('scroll', handleClick);
-	}, [handleClick]);
+		scrollFrame?.addEventListener('scroll', handleClick);
+		return () => scrollFrame?.removeEventListener('scroll', handleClick);
+	}, [handleClick, scrollFrame]);
 
 	return (
 		<section className='info myScroll' ref={currentEl}>
