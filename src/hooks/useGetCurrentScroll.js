@@ -1,6 +1,6 @@
-export function useGetCurrentScroll() {
+export function useGetCurrentScroll(el) {
 	return (refEl) => {
-		const scroll = window.scrollY;
+		const scroll = el.scrollTop;
 		const baseLine = window.innerHeight / 2;
 		let customScroll = 0;
 

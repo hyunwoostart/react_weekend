@@ -10,8 +10,9 @@ function Btns() {
 	const scrollFrame = btns.current?.parentElement.parentElement;
 
 	const activation = () => {
-		console.log('activation');
-		const scroll = btns.current?.parentElement.parentElement.scrollY;
+		//console.log('activation');
+		const scroll = btns.current?.parentElement.parentElement.scrollTop;
+		console.log(scroll);
 		secs.current.forEach((el, idx) => {
 			if (scroll >= el.offsetTop - window.innerHeight / 2) {
 				Array.from(btns.current.children).forEach((btn) => btn.classList.remove('on'));
@@ -23,12 +24,9 @@ function Btns() {
 		});
 	};
 
-	//useThrottle커스텀훅의 인수로 activation함수를 전달해서
-	//throttle이 적용된 activation2라는 함수를 반환받음
 	const activation2 = useThrottle(activation);
 
 	const handleClick = (idx) => {
-		console.log(btns.current.parentElement.parentElement);
 		new Anime(
 			btns.current?.parentElement.parentElement,
 			{ scroll: secs.current[idx].offsetTop },

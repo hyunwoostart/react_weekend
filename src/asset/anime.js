@@ -33,7 +33,7 @@ export default class Anime {
 		}
 
 		key === 'scroll'
-			? (currentValue = this.selector.scrollY)
+			? (currentValue = this.selector.scrollTop)
 			: (currentValue = parseFloat(getComputedStyle(this.selector)[key]));
 
 		if (type === 'percent') {
@@ -110,7 +110,7 @@ export default class Anime {
 		else if (type === 'color')
 			this.selector.style[key] = `rgb(${result[0]},${result[1]},${result[2]})`;
 		else if (key === 'opacity') this.selector.style[key] = result;
-		else if (key === 'scroll') this.selector.scroll(0, result);
+		else if (key === 'scroll') this.selector.scrollTop = result;
 		else this.selector.style[key] = result + 'px';
 	}
 
