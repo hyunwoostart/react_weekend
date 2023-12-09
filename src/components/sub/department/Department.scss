@@ -13,7 +13,7 @@
 		}
 		.con {
 			padding-left: 80px;
-			border-left: 1px solid #ddd;
+			border-left: 1px solid rgba(var(--baseColor-code), 0.3);
 			width: 75%;
 
 			h3 {
@@ -52,7 +52,7 @@
 		}
 		.con {
 			padding-left: 80px;
-			border-left: 1px solid #ddd;
+			border-left: 1px solid rgba(var(--baseColor-code), 0.3);
 			width: 75%;
 			display: flex;
 			justify-content: space-between;

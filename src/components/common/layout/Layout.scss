@@ -10,7 +10,7 @@
 
 	h1 {
 		font: normal 80px/1 'nanum myeongjo';
-		color: #444;
+		color: var(--baseColor);
 		margin-bottom: 10px;
 
 		span {
@@ -22,7 +22,7 @@
 	.bar {
 		width: 0px;
 		height: 1px;
-		background: #000;
+		background: var(--baseColor);
 		margin-bottom: 100px;
 		transition: 1s 1s;
 	}

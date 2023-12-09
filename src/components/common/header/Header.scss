@@ -1,7 +1,7 @@
 header {
 	width: calc(70vw + 10px);
 	padding: 30px 5px;
-	border-bottom: 1px solid #bbb;
+	border-bottom: 1px solid rbga(var(--baseColor-code), 0.3);
 	display: flex;
 	justify-content: space-between;
 	margin: 0 auto;
@@ -18,10 +18,11 @@ header {
 		align-items: center;
 
 		li a {
-			color: #555;
+			color: var(--basdeColor);
+			opacity: 0.7;
 
 			&.on {
-				color: hotpink;
+				color: var(--pointColor);
 			}
 		}
 	}

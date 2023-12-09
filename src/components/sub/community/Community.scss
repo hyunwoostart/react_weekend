@@ -13,10 +13,10 @@
 			textarea {
 				width: 100%;
 				border: none;
-				border-bottom: 1px solid #777;
+				border-bottom: 1px solid rgba(var(--baseColor-code), 0.6);
 				padding: 7px 10px;
 				font-size: 1rem;
-				color: #555;
+				color: rgba(var(--baseColor-code), 0.6);
 				margin-bottom: 30px;
 				resize: none;
 			}
@@ -45,7 +45,7 @@
 		.showBox {
 			width: 70%;
 			padding-left: 80px;
-			border-left: 1px solid #bbb;
+			border-left: 1px solid rgba(var(--baseColor-code), 0.3);
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: flex-start;
@@ -56,7 +56,7 @@
 				//넓이: (100% - 사이간격갯수*간격수치값) / 컬럼갯수
 				width: calc((100% - var(--boxGap) * (var(--countColumn) - 1)) / var(--countColumn));
 				height: 25vh;
-				background: #efefef;
+				background: rgba(var(--baseColor-code), 0.1);
 				padding: 20px;
 				//margin-bottom: 20px;
 				display: flex;
@@ -69,25 +69,27 @@
 						width: 100%;
 						font-size: 1.6rem;
 						padding-bottom: 10px;
-						border-bottom: 1px solid #aaa;
+						border-bottom: 1px solid rgba(var(--baseColor-code), 0.3);
 						margin-bottom: 10px;
-						color: #111;
+						color: var(--baseColor);
 					}
 					p {
 						font: 0.8rem/1.4 'arial';
-						color: #999;
+						color: var(--baseColor);
+						opacity: 0.6;
 						margin-bottom: 40px;
 					}
 					span {
 						font: 0.6rem/1 'arial';
-						color: orangered;
+						color: var(--pointColor);
 					}
 
 					input {
 						border: none;
 						width: 100%;
 						font-size: 1.2rem;
-						color: #333;
+						color: var(--baseColor);
+						opacity: 0.8;
 						padding-left: 3px 10px;
 						margin-bottom: 20px;
 					}

@@ -9,7 +9,7 @@
 			width: 30%;
 			padding-right: 50px;
 			border-right: 1px solid transparent;
-			border-image: radial-gradient(#bbb 90%, transparent) 1;
+			border-image: radial-gradient(rgba(var(--baseColor-code), 0.3) 90%, transparent) 1;
 
 			h2 {
 				font-size: 1.5rem;
@@ -39,7 +39,8 @@
 							display: block;
 							width: calc(100% - 40px);
 							height: 1px;
-							background: #888;
+							background: var(--baseColor);
+							opacity: 0.6;
 							position: absolute;
 							bottom: 0;
 							left: 20px;
@@ -51,15 +52,17 @@
 							width: 80%;
 							padding: 10px 0px 0px;
 							border: none;
+							background-color: transparent;
 						}
 						select {
 							width: 100%;
 							border: none;
+							background-color: transparent;
 						}
 						label {
 							margin-right: 40px;
 							font-size: 1rem;
-							color: #888;
+							opacity: 0.6;
 						}
 						input[type='checkbox'],
 						input[type='radio'] {
@@ -67,13 +70,13 @@
 						}
 						input[type='submit'],
 						input[type='reset'] {
-							background: #333;
+							background: var(--baseColor);
 							margin-right: 20px;
 							width: 200px;
 							height: 40px;
 							border: none;
 							font-size: 1rem;
-							color: #fff;
+							color: var(--bgColor);
 							cursor: pointer;
 							transition: 0.5s;
 
