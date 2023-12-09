@@ -42,8 +42,8 @@ export default function Header({ isMain, IsDark, setIsDark }) {
 				</li>
 			</ul>
 
-			<div className='themeBox' onClick={() => setIsDark(!IsDark)}>
-				<div className='ball'>테마버튼</div>
+			<div className={`themeBox ${IsDark && 'dark'}`} onClick={() => setIsDark(!IsDark)}>
+				<div className='ball'></div>
 			</div>
 
 			<HiBars4 fontSize={20} color={'#777'} className='bars' />
