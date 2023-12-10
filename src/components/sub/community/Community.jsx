@@ -47,12 +47,10 @@ function Comunity() {
 	};
 
 	const enableUpdate = (editIndex) => {
-		//Allowed값이 true일때에만 수정모드 진입가능하게 처리
 		if (!Allowed) return;
-		//일단 수정모드에 진입하면 Allowed값을 false로 변경해서 추가적으로 수정모드 진입불가처리
+
 		setAllowed(false);
 		setPosts(
-			//기존의 Posts배열을 반복돌면서 파라미터전달된 editIndex순번에 해다는 post객체에만 enableUpdate=true값을 추가한 객체의 배열값을 다시 기존 Posts에 변경
 			Posts.map((post, idx) => {
 				if (editIndex === idx) post.enableUpdate = true;
 				return post;
@@ -61,7 +59,6 @@ function Comunity() {
 	};
 
 	const disableUpdate = (cancelIndex) => {
-		//수정취소시 다시 Allowed값 true변경해서 수정모드 가능하게 변경
 		setAllowed(true);
 		setPosts(
 			Posts.map((post, idx) => {
@@ -74,13 +71,10 @@ function Comunity() {
 	const updatePost = (updateIndex) => {
 		if (!editInput.current.value.trim() || !editTextarea.current.value.trim())
 			return alert('수정할 글의 제목과 본문을 모두 입력하세요.');
-		//수정완료시에도 다시 Allowed값 true변경해서 수정모드 가능하게 변경
 		setAllowed(true);
 		setPosts(
 			Posts.map((post, idx) => {
-				//전달된 수정번호와 현재 반복도는 post순번이 같으면
 				if (updateIndex === idx) {
-					//수정모드의 폼요소값을 담아주고 enableUpdate값을 false로 변경해서 다시 출력모드 변경
 					post.title = editInput.current.value;
 					post.content = editTextarea.current.value;
 					post.enableUpdate = false;
@@ -91,6 +85,8 @@ function Comunity() {
 	};
 
 	useEffect(() => {
+		//Posts데이터가 변경되면 수정모드를 강제로 false처리해서 로컬저장소에 저장
+		Posts.map((el) => (el.enableUpdate = false));
 		localStorage.setItem('posts', JSON.stringify(Posts));
 	}, [Posts]);
 
