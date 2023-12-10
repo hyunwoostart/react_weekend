@@ -21,6 +21,7 @@ function Comunity() {
 	const [Posts, setPosts] = useState(getLocalData());
 	const [Allowed, setAllowed] = useState(true);
 	const [PageNum, setPageNum] = useState(0);
+	const [CurNum, setCurNum] = useState(0);
 
 	const resetPost = () => {
 		refInput.current.value = '';
@@ -107,7 +108,11 @@ function Comunity() {
 				{Array(PageNum)
 					.fill()
 					.map((_, idx) => {
-						return <button key={idx}>{idx + 1}</button>;
+						return (
+							<button key={idx} onClick={() => setCurNum(idx)}>
+								{idx + 1}
+							</button>
+						);
 					})}
 			</nav>
 
@@ -133,38 +138,43 @@ function Comunity() {
 
 				<div className='showBox'>
 					{Posts.map((post, idx) => {
+						// CurNum(0)  idx>=0 && idx < 3
+						// CurNum(1)  idx>=3 && idx < 6
+						// CurNum(2)  idx>=6 && idx < 9
+						//idx >= (3*0) && idx < (3*1)
 						const stringDate = JSON.stringify(post.date);
 						const textedDate = stringDate.split('T')[0].split('"')[1].split('-').join('.');
-						if (post.enableUpdate) {
-							//수정모드
-							return (
-								<article key={idx}>
-									<div className='txt'>
-										<input type='text' defaultValue={post.title} ref={editInput} />
-										<textarea defaultValue={post.content} ref={editTextarea}></textarea>
-									</div>
-									<nav>
-										<button onClick={() => disableUpdate(idx)}>Cancel</button>
-										<button onClick={() => updatePost(idx)}>Update</button>
-									</nav>
-								</article>
-							);
-						} else {
-							//출력모드
-							return (
-								<article key={idx}>
-									<div className='txt'>
-										<h2>{post.title}</h2>
-										<p>{post.content}</p>
-										<span>{textedDate} </span>
-									</div>
-									<nav>
-										<button onClick={() => enableUpdate(idx)}>Edit</button>
-										<button onClick={() => deletePost(idx)}>Delete</button>
-									</nav>
-								</article>
-							);
-						}
+
+						return (
+							<article key={idx}>
+								{post.enableUpdate ? (
+									//수정모드
+									<>
+										<div className='txt'>
+											<input type='text' defaultValue={post.title} ref={editInput} />
+											<textarea defaultValue={post.content} ref={editTextarea}></textarea>
+										</div>
+										<nav>
+											<button onClick={() => disableUpdate(idx)}>Cancel</button>
+											<button onClick={() => updatePost(idx)}>Update</button>
+										</nav>
+									</>
+								) : (
+									//출력모드
+									<>
+										<div className='txt'>
+											<h2>{post.title}</h2>
+											<p>{post.content}</p>
+											<span>{textedDate} </span>
+										</div>
+										<nav>
+											<button onClick={() => enableUpdate(idx)}>Edit</button>
+											<button onClick={() => deletePost(idx)}>Delete</button>
+										</nav>
+									</>
+								)}
+							</article>
+						);
 					})}
 				</div>
 			</div>
