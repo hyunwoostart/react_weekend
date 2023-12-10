@@ -138,6 +138,9 @@ function Comunity() {
 
 				<div className='showBox'>
 					{Posts.map((post, idx) => {
+						const stringDate = JSON.stringify(post.date);
+						const textedDate = stringDate.split('T')[0].split('"')[1].split('-').join('.');
+
 						if (idx >= perNum.current * CurNum && idx < perNum.current * (CurNum + 1)) {
 							return (
 								<article key={idx}>
