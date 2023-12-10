@@ -14,9 +14,13 @@ function Comunity() {
 	const refTextarea = useRef(null);
 	const editInput = useRef(null);
 	const editTextarea = useRef(null);
+	const len = useRef(0); //전체 포스트 갯수가 담길 참조객체
+	const pageNum = useRef(0); //페이지 갯수가 담길 참조객체
+	const perNum = useRef(3); //페이지당 보일 포스트 갯수가 담긴 참조객체
+
 	const [Posts, setPosts] = useState(getLocalData());
 	const [Allowed, setAllowed] = useState(true);
-	console.log(Posts);
+	const [PageNum, setPageNum] = useState(0);
 
 	const resetPost = () => {
 		refInput.current.value = '';
@@ -85,13 +89,28 @@ function Comunity() {
 	};
 
 	useEffect(() => {
-		//Posts데이터가 변경되면 수정모드를 강제로 false처리해서 로컬저장소에 저장
 		Posts.map((el) => (el.enableUpdate = false));
 		localStorage.setItem('posts', JSON.stringify(Posts));
+		len.current = Posts.length;
+
+		pageNum.current =
+			len.current % perNum.current === 0
+				? len.current / perNum.current
+				: parseInt(len.current / perNum.current) + 1;
+
+		setPageNum(pageNum.current);
 	}, [Posts]);
 
 	return (
 		<Layout title={'Community'}>
+			<nav className='pagination'>
+				{Array(PageNum)
+					.fill()
+					.map((_, idx) => {
+						return <button key={idx}>{idx + 1}</button>;
+					})}
+			</nav>
+
 			<div className='wrap'>
 				<div className='inputBox'>
 					<input type='text' placeholder='Write Title' ref={refInput} />
