@@ -16,7 +16,7 @@ function Comunity() {
 	const editTextarea = useRef(null);
 	const len = useRef(0); //전체 포스트 갯수가 담길 참조객체
 	const pageNum = useRef(0); //페이지 갯수가 담길 참조객체
-	const perNum = useRef(3); //페이지당 보일 포스트 갯수가 담긴 참조객체
+	const perNum = useRef(6); //페이지당 보일 포스트 갯수가 담긴 참조객체
 
 	const [Posts, setPosts] = useState(getLocalData());
 	const [Allowed, setAllowed] = useState(true);
@@ -145,36 +145,38 @@ function Comunity() {
 						const stringDate = JSON.stringify(post.date);
 						const textedDate = stringDate.split('T')[0].split('"')[1].split('-').join('.');
 
-						return (
-							<article key={idx}>
-								{post.enableUpdate ? (
-									//수정모드
-									<>
-										<div className='txt'>
-											<input type='text' defaultValue={post.title} ref={editInput} />
-											<textarea defaultValue={post.content} ref={editTextarea}></textarea>
-										</div>
-										<nav>
-											<button onClick={() => disableUpdate(idx)}>Cancel</button>
-											<button onClick={() => updatePost(idx)}>Update</button>
-										</nav>
-									</>
-								) : (
-									//출력모드
-									<>
-										<div className='txt'>
-											<h2>{post.title}</h2>
-											<p>{post.content}</p>
-											<span>{textedDate} </span>
-										</div>
-										<nav>
-											<button onClick={() => enableUpdate(idx)}>Edit</button>
-											<button onClick={() => deletePost(idx)}>Delete</button>
-										</nav>
-									</>
-								)}
-							</article>
-						);
+						if (idx >= perNum.current * CurNum && idx < perNum.current * (CurNum + 1)) {
+							return (
+								<article key={idx}>
+									{post.enableUpdate ? (
+										//수정모드
+										<>
+											<div className='txt'>
+												<input type='text' defaultValue={post.title} ref={editInput} />
+												<textarea defaultValue={post.content} ref={editTextarea}></textarea>
+											</div>
+											<nav>
+												<button onClick={() => disableUpdate(idx)}>Cancel</button>
+												<button onClick={() => updatePost(idx)}>Update</button>
+											</nav>
+										</>
+									) : (
+										//출력모드
+										<>
+											<div className='txt'>
+												<h2>{post.title}</h2>
+												<p>{post.content}</p>
+												<span>{textedDate} </span>
+											</div>
+											<nav>
+												<button onClick={() => enableUpdate(idx)}>Edit</button>
+												<button onClick={() => deletePost(idx)}>Delete</button>
+											</nav>
+										</>
+									)}
+								</article>
+							);
+						}
 					})}
 				</div>
 			</div>
