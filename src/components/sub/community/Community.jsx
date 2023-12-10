@@ -3,8 +3,10 @@ import Layout from '../../common/layout/Layout';
 import { TfiWrite } from 'react-icons/tfi';
 import { RxReset } from 'react-icons/rx';
 import { useRef, useState, useEffect } from 'react';
+import { useCustomText } from '../../../hooks/useText';
 
 function Comunity() {
+	const changeText = useCustomText('combined');
 	const getLocalData = () => {
 		const data = localStorage.getItem('posts');
 		if (data) return JSON.parse(data);
@@ -139,7 +141,7 @@ function Comunity() {
 				<div className='showBox'>
 					{Posts.map((post, idx) => {
 						const stringDate = JSON.stringify(post.date);
-						const textedDate = stringDate.split('T')[0].split('"')[1].split('-').join('.');
+						const textedDate = changeText(stringDate.split('T')[0], '.').slice(1);
 
 						if (idx >= perNum.current * CurNum && idx < perNum.current * (CurNum + 1)) {
 							return (
