@@ -14,6 +14,11 @@ import { Route, Switch } from 'react-router-dom';
 import MainWrap from './components/main/mainWrap/MainWrap';
 import { useState } from 'react';
 
+//asset > anime.js
+//mainWrap > Btns.jsx
+//mainWrap > Banner.jsx
+//hooks > useGetCurrentScroll.js
+//vercel에 환경변수 추가
 function App() {
 	const [IsDark, setIsDark] = useState(false);
 
