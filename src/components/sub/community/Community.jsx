@@ -3,8 +3,10 @@ import Layout from '../../common/layout/Layout';
 import { TfiWrite } from 'react-icons/tfi';
 import { RxReset } from 'react-icons/rx';
 import { useRef, useState, useEffect } from 'react';
+import { useCustomText } from '../../../hooks/useText';
 
 function Comunity() {
+	const changeText = useCustomText('combined');
 	const getLocalData = () => {
 		const data = localStorage.getItem('posts');
 		if (data) return JSON.parse(data);
@@ -14,9 +16,14 @@ function Comunity() {
 	const refTextarea = useRef(null);
 	const editInput = useRef(null);
 	const editTextarea = useRef(null);
+	const len = useRef(0); //전체 포스트 갯수가 담길 참조객체
+	const pageNum = useRef(0); //페이지 갯수가 담길 참조객체
+	const perNum = useRef(6); //페이지당 보일 포스트 갯수가 담긴 참조객체
+
 	const [Posts, setPosts] = useState(getLocalData());
 	const [Allowed, setAllowed] = useState(true);
-	console.log(Posts);
+	const [PageNum, setPageNum] = useState(0);
+	const [CurNum, setCurNum] = useState(0);
 
 	const resetPost = () => {
 		refInput.current.value = '';
@@ -47,12 +54,10 @@ function Comunity() {
 	};
 
 	const enableUpdate = (editIndex) => {
-		//Allowed값이 true일때에만 수정모드 진입가능하게 처리
 		if (!Allowed) return;
-		//일단 수정모드에 진입하면 Allowed값을 false로 변경해서 추가적으로 수정모드 진입불가처리
+
 		setAllowed(false);
 		setPosts(
-			//기존의 Posts배열을 반복돌면서 파라미터전달된 editIndex순번에 해다는 post객체에만 enableUpdate=true값을 추가한 객체의 배열값을 다시 기존 Posts에 변경
 			Posts.map((post, idx) => {
 				if (editIndex === idx) post.enableUpdate = true;
 				return post;
@@ -61,7 +66,6 @@ function Comunity() {
 	};
 
 	const disableUpdate = (cancelIndex) => {
-		//수정취소시 다시 Allowed값 true변경해서 수정모드 가능하게 변경
 		setAllowed(true);
 		setPosts(
 			Posts.map((post, idx) => {
@@ -74,13 +78,10 @@ function Comunity() {
 	const updatePost = (updateIndex) => {
 		if (!editInput.current.value.trim() || !editTextarea.current.value.trim())
 			return alert('수정할 글의 제목과 본문을 모두 입력하세요.');
-		//수정완료시에도 다시 Allowed값 true변경해서 수정모드 가능하게 변경
 		setAllowed(true);
 		setPosts(
 			Posts.map((post, idx) => {
-				//전달된 수정번호와 현재 반복도는 post순번이 같으면
 				if (updateIndex === idx) {
-					//수정모드의 폼요소값을 담아주고 enableUpdate값을 false로 변경해서 다시 출력모드 변경
 					post.title = editInput.current.value;
 					post.content = editTextarea.current.value;
 					post.enableUpdate = false;
@@ -91,11 +92,36 @@ function Comunity() {
 	};
 
 	useEffect(() => {
+		Posts.map((el) => (el.enableUpdate = false));
 		localStorage.setItem('posts', JSON.stringify(Posts));
+		len.current = Posts.length;
+
+		pageNum.current =
+			len.current % perNum.current === 0
+				? len.current / perNum.current
+				: parseInt(len.current / perNum.current) + 1;
+
+		setPageNum(pageNum.current);
 	}, [Posts]);
 
 	return (
 		<Layout title={'Community'}>
+			<nav className='pagination'>
+				{Array(PageNum)
+					.fill()
+					.map((_, idx) => {
+						return (
+							<button
+								key={idx}
+								onClick={() => setCurNum(idx)}
+								className={idx === CurNum ? 'on' : ''}
+							>
+								{idx + 1}
+							</button>
+						);
+					})}
+			</nav>
+
 			<div className='wrap'>
 				<div className='inputBox'>
 					<input type='text' placeholder='Write Title' ref={refInput} />
@@ -119,36 +145,41 @@ function Comunity() {
 				<div className='showBox'>
 					{Posts.map((post, idx) => {
 						const stringDate = JSON.stringify(post.date);
-						const textedDate = stringDate.split('T')[0].split('"')[1].split('-').join('.');
-						if (post.enableUpdate) {
-							//수정모드
+						const textedDate = changeText(stringDate.split('T')[0], '.').slice(1);
+
+						if (idx >= perNum.current * CurNum && idx < perNum.current * (CurNum + 1)) {
 							return (
 								<article key={idx}>
-									<div className='txt'>
-										<input type='text' defaultValue={post.title} ref={editInput} />
-										<textarea defaultValue={post.content} ref={editTextarea}></textarea>
-									</div>
-									<nav>
-										<button onClick={() => disableUpdate(idx)}>Cancel</button>
-										<button onClick={() => updatePost(idx)}>Update</button>
-									</nav>
+									{post.enableUpdate ? (
+										//수정모드
+										<>
+											<div className='txt'>
+												<input type='text' defaultValue={post.title} ref={editInput} />
+												<textarea defaultValue={post.content} ref={editTextarea}></textarea>
+											</div>
+											<nav>
+												<button onClick={() => disableUpdate(idx)}>Cancel</button>
+												<button onClick={() => updatePost(idx)}>Update</button>
+											</nav>
+										</>
+									) : (
+										//출력모드
+										<>
+											<div className='txt'>
+												<h2>{post.title}</h2>
+												<p>{post.content}</p>
+												<span>{textedDate} </span>
+											</div>
+											<nav>
+												<button onClick={() => enableUpdate(idx)}>Edit</button>
+												<button onClick={() => deletePost(idx)}>Delete</button>
+											</nav>
+										</>
+									)}
 								</article>
 							);
 						} else {
-							//출력모드
-							return (
-								<article key={idx}>
-									<div className='txt'>
-										<h2>{post.title}</h2>
-										<p>{post.content}</p>
-										<span>{textedDate} </span>
-									</div>
-									<nav>
-										<button onClick={() => enableUpdate(idx)}>Edit</button>
-										<button onClick={() => deletePost(idx)}>Delete</button>
-									</nav>
-								</article>
-							);
+							return null;
 						}
 					})}
 				</div>
