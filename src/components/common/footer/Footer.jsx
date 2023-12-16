@@ -12,7 +12,7 @@ export default function Footer() {
 			<h1>Dcodelab</h1>
 
 			<p>2023 Dcodelab &copy; All Rights Reserved.</p>
-			<p>This company was founced by {MemberData[0].name}</p>
+			<p>This company was founced by {MemberData[0]?.name}</p>
 
 			<ul>
 				<li>
