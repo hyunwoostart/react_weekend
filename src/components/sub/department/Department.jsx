@@ -1,23 +1,13 @@
 import './Department.scss';
 import Layout from '../../common/layout/Layout';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 const path = process.env.PUBLIC_URL;
 
 export default function Department() {
 	const Department = useSelector(store => store.memberReducer.members);
-	const [History, setHistory] = useState([]);
-
-	const fetchHistory = async () => {
-		const data = await fetch(`${path}/DB/history.json`);
-		const json = await data.json();
-		setHistory(json.history);
-	};
-
-	useEffect(() => {
-		fetchHistory();
-	}, []);
+	const History = useSelector(store => store.historyReducer.history);
 
 	return (
 		<Layout title={'Department'}>
