@@ -2,28 +2,15 @@ import './Visual.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper';
 import 'swiper/css';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCustomText } from '../../../hooks/useText';
+import { useSelector } from 'react-redux';
 
 export default function Visual() {
+	const SlideData = useSelector(store => store.youtubeReducer.youtube);
 	const [Index, setIndex] = useState(0);
-	const [SlideData, setSlideData] = useState([]);
 	const shortenText = useCustomText('shorten');
-
-	const fetchYoutube = async () => {
-		const api_key = process.env.REACT_APP_YOUTUBE_KEY;
-		const pid = process.env.REACT_APP_PLAYLIST;
-		const num = 10;
-		const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&playlistId=${pid}&maxResults=${num}`;
-		const data = await fetch(baseURL);
-		const json = await data.json();
-		setSlideData(json.items);
-	};
-
-	useEffect(() => {
-		fetchYoutube();
-	}, []);
 
 	return (
 		<figure className='myScroll'>
@@ -50,18 +37,17 @@ export default function Visual() {
 				loop={true}
 				centeredSlides={true}
 				autoplay={{ delay: 2000, disableOnInteraction: true }}
-				onSlideChange={(el) => setIndex(el.realIndex)}
+				onSlideChange={el => setIndex(el.realIndex)}
 				breakpoints={{
 					1000: {
 						slidesPerView: 2,
-						spaceBetween: 50,
+						spaceBetween: 50
 					},
 					1400: {
 						slidesPerView: 3,
-						spaceBetween: 50,
-					},
-				}}
-			>
+						spaceBetween: 50
+					}
+				}}>
 				{SlideData.map((data, idx) => {
 					if (idx >= 5) return null;
 					return (
