@@ -34,9 +34,20 @@ function App() {
 		dispatch({ type: 'SET_HISTORY', payload: json.history });
 	};
 
+	const fetchYoutube = async () => {
+		const api_key = process.env.REACT_APP_YOUTUBE_KEY;
+		const pid = process.env.REACT_APP_PLAYLIST;
+		const num = 10;
+		const baseURL = `https://www.googleapis.com/youtube/v3/playlistItems?key=${api_key}&part=snippet&playlistId=${pid}&maxResults=${num}`;
+		const data = await fetch(baseURL);
+		const json = await data.json();
+		dispatch({ type: 'SET_YOUTUBE', payload: json.items });
+	};
+
 	useEffect(() => {
 		fetchDepartment();
 		fetchHistory();
+		fetchYoutube();
 	}, []);
 
 	return (
