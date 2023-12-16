@@ -25,7 +25,6 @@ function App() {
 	const fetchDepartment = async () => {
 		const data = await fetch(`${path.current}/DB/department.json`);
 		const json = await data.json();
-		//동기적으로 데이터 반환이 끝나는 순간 배열값만 뽑아서 액션객체로 만든다음 dispatch함수로 리듀서에 전달
 		dispatch({ type: 'SET_MEMBERS', payload: json.members });
 	};
 
