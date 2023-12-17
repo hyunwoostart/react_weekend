@@ -11,7 +11,7 @@ export default function Layout({ children, title }) {
 	useEffect(() => {
 		splitText(refTitle, 0.1);
 		setTimeout(() => {
-			refFrame.current.classList.add('on');
+			refFrame.current?.classList.add('on');
 		}, 600);
 	}, []);
 
