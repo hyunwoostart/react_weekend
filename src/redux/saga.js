@@ -23,7 +23,7 @@ function* returnFlickr(action) {
     const response = yield call(fetchFlickr, action.Opt);
     yield put({
       type: types.FLICKR.success,
-      payload: response,
+      payload: response.photos.photo,
     });
   } catch (err) {
     yield put({ type: types.FLICKR.fail, payload: err });
