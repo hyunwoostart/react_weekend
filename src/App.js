@@ -26,7 +26,7 @@ function App() {
 
   useEffect(() => {
     dispatch({ type: types.FLICKR.start, Opt: { type: 'interest' } });
-  }, []);
+	}, [dispatch]);
 
   return (
     <main className={`wrap ${useMedia()} ${IsDark ? 'dark' : ''}`}>
