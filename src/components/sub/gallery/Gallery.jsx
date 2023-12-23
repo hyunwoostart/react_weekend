@@ -6,6 +6,7 @@ import { LuSearch } from 'react-icons/lu';
 import Modal from '../../common/modal/Modal';
 import { useSelector, useDispatch } from 'react-redux';
 import * as types from '../../../redux/actionType';
+import clientAction from '../../../redux/clientActionType';
 
 export default function Gallery() {
 	const dispatch = useDispatch();
@@ -13,7 +14,6 @@ export default function Gallery() {
 	const myID = '197119297@N02';
 	let [IsUser, setIsUser] = useState(myID);
 	let [CurrentType, setCurrentType] = useState('mine');
-	let [IsOpen, setIsOpen] = useState(false);
 	const [Index, setIndex] = useState(0);
 	const refElBtnSet = useRef(null);
 	const refElInput = useRef(null);
@@ -69,7 +69,7 @@ export default function Gallery() {
 
 	const handleModal = idx => {
 		//Modal안의 컨텐츠를 출력하기 위한 State
-		setIsOpen(true);
+		dispatch({ type: clientAction.modal, payload: true });
 		//클릭한 썸네일의 순번값을 전달하기 위한 State
 		setIndex(idx);
 	};
@@ -140,11 +140,7 @@ export default function Gallery() {
 				</div>
 			</Layout>
 
-			{/* 모달 호출시 출력유무를 결정하는 state값과 state변경함수를 Modal에 props로 전달 - 이유: 모달이 열고 닫는거는 부모가 아닌 자식 컴포넌트에 결정하게 하기 위함 */}
-			<Modal
-				IsOpen={IsOpen}
-				setIsOpen={setIsOpen}>
-				{/* 첫번째 렌더링 사이클에서 배열값이 비어있는 경우는 에러가 아니지만 없는 객체의 특정 property접근은 에러상황이기 때문에 해당 객체값이 있을때에만 특정 요소를 렌더링되게 하거나 아니면 옵셔널 체이닝 처리를 해서 첫번째 렌더링시의 오류 해결 */}
+			<Modal>
 				{Pics[Index] && (
 					<img
 						src={`https://live.staticflickr.com/${Pics[Index].server}/${Pics[Index].id}_${Pics[Index].secret}_b.jpg`}
