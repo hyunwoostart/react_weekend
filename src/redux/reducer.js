@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import * as types from './actionType';
+import clientAction from './clientActionType';
 
 const flickrReducer = (state = { flickr: [] }, action) => {
 	if (action.type === types.FLICKR.start) return state;
@@ -29,5 +30,28 @@ const historyReducer = (state = { history: [] }, action) => {
 	else return state;
 };
 
-const reducers = combineReducers({ flickrReducer, youtubeReducer, departmentReducer, historyReducer });
+const modalReducer = (state = { modal: false }, action) => {
+	if (action.type === clientAction.modal) return { ...state, modal: action.payload };
+	else return state;
+};
+
+const menuReducer = (state = { menu: false }, action) => {
+	if (action.type === clientAction.menu) return { ...state, menu: action.payload };
+	else return state;
+};
+
+const darkReducer = (state = { dark: false }, action) => {
+	if (action.type === clientAction.dark) return { ...state, dark: action.payload };
+	else return state;
+};
+
+const reducers = combineReducers({
+	flickrReducer,
+	youtubeReducer,
+	departmentReducer,
+	historyReducer,
+	modalReducer,
+	menuReducer,
+	darkReducer
+});
 export default reducers;
