@@ -8,16 +8,15 @@ function Btns() {
 	const secs = useRef(null);
 	const btns = useRef(null);
 	const scrollFrame = btns.current?.parentElement.parentElement;
-	console.log(scrollFrame);
 
 	const activation = () => {
 		const scroll = btns.current?.parentElement.parentElement.scrollTop;
 		secs.current.forEach((el, idx) => {
 			if (scroll >= el.offsetTop - window.innerHeight / 2) {
-				Array.from(btns.current.children).forEach((btn) => btn.classList.remove('on'));
+				Array.from(btns.current.children).forEach(btn => btn.classList.remove('on'));
 				btns.current.children[idx]?.classList.add('on');
 
-				secs.current.forEach((sec) => sec.classList.remove('on'));
+				secs.current.forEach(sec => sec.classList.remove('on'));
 				secs.current[idx].classList.add('on');
 			}
 		});
@@ -25,12 +24,8 @@ function Btns() {
 
 	const activation2 = useThrottle(activation);
 
-	const handleClick = (idx) => {
-		new Anime(
-			btns.current?.parentElement.parentElement,
-			{ scroll: secs.current[idx].offsetTop },
-			{ duration: 500 }
-		);
+	const handleClick = idx => {
+		new Anime(btns.current?.parentElement.parentElement, { scroll: secs.current[idx].offsetTop }, { duration: 500 });
 	};
 
 	useEffect(() => {
@@ -43,11 +38,17 @@ function Btns() {
 	useEffect(activation, [Num, scrollFrame]);
 
 	return (
-		<ul className='btns' ref={btns}>
+		<ul
+			className='btns'
+			ref={btns}>
 			{Array(Num)
 				.fill('abc')
 				.map((_, idx) => {
-					return <li key={_ + idx} onClick={() => handleClick(idx)}></li>;
+					return (
+						<li
+							key={_ + idx}
+							onClick={() => handleClick(idx)}></li>
+					);
 				})}
 		</ul>
 	);

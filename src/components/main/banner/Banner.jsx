@@ -3,7 +3,6 @@ import './Banner.scss';
 import { useRef, useEffect, useCallback, useState } from 'react';
 
 export default function Banner() {
-	console.log('Banner');
 	const [Frame, setFrame] = useState(null);
 
 	const currentEl = useRef(null);
@@ -26,7 +25,9 @@ export default function Banner() {
 	}, [Frame, handleScroll]);
 
 	return (
-		<section className='banner myScroll' ref={currentEl}>
+		<section
+			className='banner myScroll'
+			ref={currentEl}>
 			<h1 ref={titleEl}>Banner</h1>
 		</section>
 	);

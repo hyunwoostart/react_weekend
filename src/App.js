@@ -14,16 +14,18 @@ import { Route, Switch } from 'react-router-dom';
 import MainWrap from './components/main/mainWrap/MainWrap';
 import { useState, useEffect } from 'react';
 import Menu from './components/common/menu/Menu';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as types from './redux/actionType';
 
 function App() {
 	const dispatch = useDispatch();
+	//useSelector(store => console.log(store));
 
 	const [IsDark, setIsDark] = useState(false);
 	const [IsMenu, setIsMenu] = useState(false);
 
 	useEffect(() => {
+		dispatch({ type: types.YOUTUBE.start });
 		dispatch({ type: types.FLICKR.start, Opt: { type: 'interest' } });
 	}, [dispatch]);
 
