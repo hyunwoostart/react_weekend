@@ -22,7 +22,6 @@ function App() {
 	useSelector(store => console.log(store));
 
 	const [IsDark, setIsDark] = useState(false);
-	const [IsMenu, setIsMenu] = useState(false);
 
 	useEffect(() => {
 		Object.keys(types).forEach(actionType => dispatch({ type: types[actionType].start }));
@@ -38,8 +37,6 @@ function App() {
 						isMain={true}
 						IsDark={IsDark}
 						setIsDark={setIsDark}
-						IsMenu={IsMenu}
-						setIsMenu={setIsMenu}
 					/>
 					<MainWrap />
 				</Route>
@@ -82,10 +79,7 @@ function App() {
 				component={Detail}
 			/>
 			<Footer />
-			<Menu
-				IsMenu={IsMenu}
-				setIsMenu={setIsMenu}
-			/>
+			<Menu />
 		</main>
 	);
 }

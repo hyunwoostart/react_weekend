@@ -7,6 +7,7 @@ import clientAction from '../../../redux/clientActionType';
 export default function Modal({ children }) {
 	const dispatch = useDispatch();
 	const IsOpen = useSelector(store => store.modalReducer.modal);
+
 	useEffect(() => {
 		document.body.style.overflow = IsOpen ? 'hidden' : 'auto';
 	}, [IsOpen]);
