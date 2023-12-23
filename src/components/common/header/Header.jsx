@@ -4,9 +4,10 @@ import { HiBars4 } from 'react-icons/hi2';
 import client from '../../../redux/clientActionType';
 import { useDispatch, useSelector } from 'react-redux';
 
-export default function Header({ isMain, IsDark, setIsDark }) {
+export default function Header({ isMain }) {
 	const dispatch = useDispatch();
 	const IsMenu = useSelector(store => store.menuReducer.menu);
+	const IsDark = useSelector(store => store.darkReducer.dark);
 
 	return (
 		<header className={isMain ? 'main' : ''}>
@@ -61,7 +62,7 @@ export default function Header({ isMain, IsDark, setIsDark }) {
 
 			<div
 				className={`themeBox ${IsDark && 'dark'}`}
-				onClick={() => setIsDark(!IsDark)}>
+				onClick={() => dispatch({ type: client.dark, payload: !IsDark })}>
 				<div className='ball'></div>
 			</div>
 
