@@ -1,6 +1,6 @@
 const path = process.env.PUBLIC_URL;
 
-export const fetchFlickr = async opt => {
+export const fetchFlickr = async (opt = { type: 'user', id: '197119297@N02' }) => {
 	const baseURL = 'https://www.flickr.com/services/rest/?format=json&nojsoncallback=1';
 	const key = process.env.REACT_APP_FLICKR_KEY;
 	const method_interest = 'flickr.interestingness.getList';
