@@ -14,54 +14,79 @@ import { Route, Switch } from 'react-router-dom';
 import MainWrap from './components/main/mainWrap/MainWrap';
 import { useState, useEffect } from 'react';
 import Menu from './components/common/menu/Menu';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as types from './redux/actionType';
 
 function App() {
-  const dispatch = useDispatch();
-  useSelector((store) => console.log(store));
+	const dispatch = useDispatch();
 
-  const [IsDark, setIsDark] = useState(false);
-  const [IsMenu, setIsMenu] = useState(false);
+	const [IsDark, setIsDark] = useState(false);
+	const [IsMenu, setIsMenu] = useState(false);
 
-  useEffect(() => {
-    dispatch({ type: types.FLICKR.start, Opt: { type: 'interest' } });
+	useEffect(() => {
+		dispatch({ type: types.FLICKR.start, Opt: { type: 'interest' } });
 	}, [dispatch]);
 
-  return (
-    <main className={`wrap ${useMedia()} ${IsDark ? 'dark' : ''}`}>
-      <Switch>
-        <Route exact path="/">
-          <Header
-            isMain={true}
-            IsDark={IsDark}
-            setIsDark={setIsDark}
-            IsMenu={IsMenu}
-            setIsMenu={setIsMenu}
-          />
-          <MainWrap />
-        </Route>
-        <Route path="/">
-          <Header
-            isMain={false}
-            IsDark={IsDark}
-            setIsDark={setIsDark}
-            IsMenu={IsMenu}
-            setIsMenu={setIsMenu}
-          />
-        </Route>
-      </Switch>
-      <Route path="/department" component={Department} />
-      <Route path="/community" component={Community} />
-      <Route path="/gallery" component={Gallery} />
-      <Route path="/youtube" component={Youtube} />
-      <Route path="/members" component={Members} />
-      <Route path="/contact" component={Contact} />
-      <Route path="/detail/:id" component={Detail} />
-      <Footer />
-      <Menu IsMenu={IsMenu} setIsMenu={setIsMenu} />
-    </main>
-  );
+	return (
+		<main className={`wrap ${useMedia()} ${IsDark ? 'dark' : ''}`}>
+			<Switch>
+				<Route
+					exact
+					path='/'>
+					<Header
+						isMain={true}
+						IsDark={IsDark}
+						setIsDark={setIsDark}
+						IsMenu={IsMenu}
+						setIsMenu={setIsMenu}
+					/>
+					<MainWrap />
+				</Route>
+				<Route path='/'>
+					<Header
+						isMain={false}
+						IsDark={IsDark}
+						setIsDark={setIsDark}
+						IsMenu={IsMenu}
+						setIsMenu={setIsMenu}
+					/>
+				</Route>
+			</Switch>
+			<Route
+				path='/department'
+				component={Department}
+			/>
+			<Route
+				path='/community'
+				component={Community}
+			/>
+			<Route
+				path='/gallery'
+				component={Gallery}
+			/>
+			<Route
+				path='/youtube'
+				component={Youtube}
+			/>
+			<Route
+				path='/members'
+				component={Members}
+			/>
+			<Route
+				path='/contact'
+				component={Contact}
+			/>
+			<Route
+				path='/detail/:id'
+				component={Detail}
+			/>
+			<Footer />
+			<Menu
+				IsMenu={IsMenu}
+				setIsMenu={setIsMenu}
+			/>
+		</main>
+	);
 }
 
 export default App;
