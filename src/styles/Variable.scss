@@ -3,7 +3,7 @@ $mobile: 539px;
 
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap');
 
-* {
+*:not(.layout, .layout > h1 > span) {
 	transition: color 1s 0s, background-color 1s 0s;
 }
 
