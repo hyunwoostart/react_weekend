@@ -17,7 +17,7 @@ function* callFlickr() {
 }
 
 function* callYoutube() {
-	yield takeLatest(types.YOUTUBE.start, function* (action) {
+	yield takeLatest(types.YOUTUBE.start, function* () {
 		try {
 			const response = yield call(fetchYoutube);
 			yield put({

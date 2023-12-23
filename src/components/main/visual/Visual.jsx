@@ -1,6 +1,6 @@
 import './Visual.scss';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper';
+//import { Autoplay } from 'swiper';
 import 'swiper/css';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -8,7 +8,7 @@ import { useCustomText } from '../../../hooks/useText';
 import { useSelector } from 'react-redux';
 
 export default function Visual() {
-	const SlideData = useSelector(store => store.flickrReducer.flickr);
+	const SlideData = useSelector(store => store.youtubeReducer.youtube);
 	console.log(SlideData);
 	const [Index, setIndex] = useState(0);
 	const shortenText = useCustomText('shorten');
@@ -23,7 +23,7 @@ export default function Visual() {
 							<li
 								key={idx}
 								className={idx === Index ? 'on' : ''}>
-								<h3>{tit.snippet?.title && shortenText(tit.snippet?.title, 50)}</h3>
+								<h3>{shortenText(tit.snippet.title, 50)}</h3>
 								<Link to={`/detail/${tit.id}`}>
 									<em>View Detail</em>
 								</Link>
@@ -34,12 +34,10 @@ export default function Visual() {
 			</div>
 
 			<Swiper
-				modules={[Autoplay]}
 				spaceBetween={0}
 				slidesPerView={1}
 				loop={true}
 				centeredSlides={true}
-				autoplay={{ delay: 2000, disableOnInteraction: true }}
 				onSlideChange={el => setIndex(el.realIndex)}
 				breakpoints={{
 					1000: {
@@ -58,19 +56,19 @@ export default function Visual() {
 							<div className='pic'>
 								<p>
 									<img
-										src={data.snippet?.thumbnails.standard.url}
-										alt={data.snippet?.title}
+										src={data.snippet.thumbnails.standard.url}
+										alt={data.snippet.title}
 									/>
 								</p>
 
 								<p>
 									<img
-										src={data.snippet?.thumbnails.standard.url}
-										alt={data.snippet?.title}
+										src={data.snippet.thumbnails.standard.url}
+										alt={data.snippet.title}
 									/>
 								</p>
 							</div>
-							<h3>{data.snippet?.title}</h3>
+							<h3>{data.snippet.title}</h3>
 						</SwiperSlide>
 					);
 				})}
