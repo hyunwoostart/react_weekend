@@ -1,50 +1,21 @@
 import Layout from '../../common/layout/Layout';
 import './Gallery.scss';
 import Masonry from 'react-masonry-component';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { LuSearch } from 'react-icons/lu';
 import Modal from '../../common/modal/Modal';
+import { useFlickrQuery } from '../../../hooks/useFlickrQuery';
 
 export default function Gallery() {
 	const myID = '197119297@N02';
-	const [Pics, setPics] = useState([]);
+	const [Opt, setOpt] = useState({ type: 'user', id: myID });
+	const { isSuccess, data: Pics } = useFlickrQuery(Opt);
 	let [IsUser, setIsUser] = useState(myID);
 	let [CurrentType, setCurrentType] = useState('mine');
 	let [IsOpen, setIsOpen] = useState(false);
 	const [Index, setIndex] = useState(0);
 	const refElBtnSet = useRef(null);
 	const refElInput = useRef(null);
-
-	const fetchFlickr = useCallback(
-		async (opt) => {
-			console.log('fetching again...');
-			const baseURL = 'https://www.flickr.com/services/rest/?format=json&nojsoncallback=1';
-			const key = process.env.REACT_APP_FLICKR_KEY;
-			const method_interest = 'flickr.interestingness.getList';
-			const method_user = 'flickr.people.getPhotos';
-			const method_search = 'flickr.photos.search';
-			const num = 40;
-			let url = '';
-			const url_interest = `${baseURL}&api_key=${key}&method=${method_interest}&per_page=${num}`;
-			const url_user = `${baseURL}&api_key=${key}&method=${method_user}&per_page=${num}&user_id=${opt.id}`;
-			const url_search = `${baseURL}&api_key=${key}&method=${method_search}&per_page=${num}&tags=${opt.keyword}`;
-
-			opt.type === 'user' && (url = url_user);
-			opt.type === 'interest' && (url = url_interest);
-			opt.type === 'search' && (url = url_search);
-
-			const data = await fetch(url);
-			const json = await data.json();
-			if (json.photos.photo.length === 0) {
-				const [btnInterest, btnMine] = refElBtnSet.current.querySelectorAll('button');
-				CurrentType === 'interest' && btnInterest.classList.add('on');
-				CurrentType === 'mine' && btnMine.classList.add('on');
-				return alert('해당 검색어의 결과값이 없습니다.');
-			}
-			setPics(json.photos.photo);
-		},
-		[CurrentType]
-	);
 
 	const activateBtn = (e) => {
 		const btns = refElBtnSet.current.querySelectorAll('button');
@@ -57,7 +28,7 @@ export default function Gallery() {
 		//inertestGallery함수가 호출시 IsUser값을 빈문자열 처리 (falsy)
 		setIsUser('');
 		activateBtn(e);
-		fetchFlickr({ type: 'interest' });
+		setOpt({ type: 'interest' });
 		setCurrentType('interest');
 	};
 
@@ -67,7 +38,7 @@ export default function Gallery() {
 		if (e.target.classList.contains('on') || IsUser === myID) return;
 		setIsUser(myID);
 		activateBtn(e);
-		fetchFlickr({ type: 'user', id: myID });
+		setOpt({ type: 'user', id: myID });
 		setCurrentType('mine');
 	};
 
@@ -76,7 +47,7 @@ export default function Gallery() {
 		if (IsUser) return;
 		setIsUser(e.target.innerText);
 		activateBtn(e);
-		fetchFlickr({ type: 'user', id: e.target.innerText });
+		setOpt({ type: 'user', id: e.target.innerText });
 		setCurrentType('user');
 	};
 
@@ -87,7 +58,7 @@ export default function Gallery() {
 		if (!tags.trim()) return;
 		setIsUser('');
 		activateBtn(e);
-		fetchFlickr({ type: 'search', keyword: tags });
+		setOpt({ type: 'search', keyword: tags });
 		setCurrentType('search');
 	};
 
@@ -97,10 +68,6 @@ export default function Gallery() {
 		//클릭한 썸네일의 순번값을 전달하기 위한 State
 		setIndex(idx);
 	};
-
-	useEffect(() => {
-		fetchFlickr({ type: 'user', id: myID });
-	}, [fetchFlickr]);
 
 	return (
 		<>
@@ -128,43 +95,42 @@ export default function Gallery() {
 						disableImagesLoaded={false}
 						updateOnEachImageLoad={false}
 					>
-						{Pics.map((pic, idx) => {
-							return (
-								<article key={idx}>
-									<div className='inner'>
-										<div className='pic' onClick={() => handleModal(idx)}>
-											<img
-												src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_w.jpg`}
-												alt={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_b.jpg`}
-											/>
-										</div>
-										<h2>{pic.title}</h2>
+						{isSuccess &&
+							Pics.map((pic, idx) => {
+								return (
+									<article key={idx}>
+										<div className='inner'>
+											<div className='pic' onClick={() => handleModal(idx)}>
+												<img
+													src={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_w.jpg`}
+													alt={`https://live.staticflickr.com/${pic.server}/${pic.id}_${pic.secret}_b.jpg`}
+												/>
+											</div>
+											<h2>{pic.title}</h2>
 
-										<div className='profile'>
-											<img
-												src={`http://farm${pic.farm}.staticflickr.com/${pic.server}/buddyicons/${pic.owner}.jpg`}
-												alt={pic.owner}
-												onError={(e) =>
-													e.target.setAttribute(
-														'src',
-														'https://www.flickr.com/images/buddyicon.gif'
-													)
-												}
-											/>
-											<span onClick={handleClickUser}>{pic.owner}</span>
+											<div className='profile'>
+												<img
+													src={`http://farm${pic.farm}.staticflickr.com/${pic.server}/buddyicons/${pic.owner}.jpg`}
+													alt={pic.owner}
+													onError={(e) =>
+														e.target.setAttribute(
+															'src',
+															'https://www.flickr.com/images/buddyicon.gif'
+														)
+													}
+												/>
+												<span onClick={handleClickUser}>{pic.owner}</span>
+											</div>
 										</div>
-									</div>
-								</article>
-							);
-						})}
+									</article>
+								);
+							})}
 					</Masonry>
 				</div>
 			</Layout>
 
-			{/* 모달 호출시 출력유무를 결정하는 state값과 state변경함수를 Modal에 props로 전달 - 이유: 모달이 열고 닫는거는 부모가 아닌 자식 컴포넌트에 결정하게 하기 위함 */}
 			<Modal IsOpen={IsOpen} setIsOpen={setIsOpen}>
-				{/* 첫번째 렌더링 사이클에서 배열값이 비어있는 경우는 에러가 아니지만 없는 객체의 특정 property접근은 에러상황이기 때문에 해당 객체값이 있을때에만 특정 요소를 렌더링되게 하거나 아니면 옵셔널 체이닝 처리를 해서 첫번째 렌더링시의 오류 해결 */}
-				{Pics[Index] && (
+				{isSuccess && Pics[Index] && (
 					<img
 						src={`https://live.staticflickr.com/${Pics[Index].server}/${Pics[Index].id}_${Pics[Index].secret}_b.jpg`}
 						alt='pic'
