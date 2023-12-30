@@ -13,6 +13,7 @@ export default function Department() {
 		isSuccess: memberSuccess,
 		data: member,
 	} = useMembersQuery();
+
 	const { isSuccess: historySuccess, data: history } = useHistoryQuery();
 
 	return (
