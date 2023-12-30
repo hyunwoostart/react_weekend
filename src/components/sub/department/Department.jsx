@@ -1,18 +1,13 @@
 import './Department.scss';
 import Layout from '../../common/layout/Layout';
 import React, { useEffect, useState } from 'react';
+import { useMembersQuery } from '../../../hooks/useMembersQuery';
 
 const path = process.env.PUBLIC_URL;
 
 export default function Department() {
-	const [Department, setDepartment] = useState([]);
 	const [History, setHistory] = useState([]);
-
-	const fetchDepartment = async () => {
-		const data = await fetch(`${path}/DB/department.json`);
-		const json = await data.json();
-		setDepartment(json.members);
-	};
+	const { isSuccess, data: Department } = useMembersQuery();
 
 	const fetchHistory = async () => {
 		const data = await fetch(`${path}/DB/history.json`);
@@ -22,7 +17,6 @@ export default function Department() {
 	};
 
 	useEffect(() => {
-		fetchDepartment();
 		fetchHistory();
 	}, []);
 
@@ -50,17 +44,21 @@ export default function Department() {
 				<h2>Department</h2>
 
 				<div className='con'>
-					{Department.map((member, idx) => {
-						return (
-							<article key={idx}>
-								<div className='pic'>
-									<img src={`${path}/img/${member.pic}`} alt={member.name} />
-								</div>
-								<h3>{member.name}</h3>
-								<p>{member.position}</p>
-							</article>
-						);
-					})}
+					{isSuccess ? (
+						Department.map((member, idx) => {
+							return (
+								<article key={idx}>
+									<div className='pic'>
+										<img src={`${path}/img/${member.pic}`} alt={member.name} />
+									</div>
+									<h3>{member.name}</h3>
+									<p>{member.position}</p>
+								</article>
+							);
+						})
+					) : (
+						<p>Loading...</p>
+					)}
 				</div>
 			</section>
 		</Layout>
