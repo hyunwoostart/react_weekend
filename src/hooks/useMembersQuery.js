@@ -21,6 +21,6 @@ export const useMembersQuery = (num) => {
 		cacheTime: 1000 * 10,
 		//다른 쿼리키가 들어가서 refetching을 해야될때 특정 데이터의 staleTime이 아직 남아있다면
 		//fresh상태로 인지하기 때문에 refetching하지 않고 캐시에 등록된 값을 재활용
-		staleTime: 1000 * 0,
+		staleTime: 1000 * 10,
 	});
 };

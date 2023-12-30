@@ -9,7 +9,9 @@ export default function Department() {
 	const [Num, setNum] = useState(0);
 	const [History, setHistory] = useState([]);
 
-	const { isSuccess, isLoading, isError, data: Department } = useMembersQuery(Num); //커스텀훅 호출시 인수로 데이터에서 뽑아낼 데이터의 순번을 전달
+	//커스텀훅 호출시 인수로 데이터에서 뽑아낼 데이터의 순번을 전달
+	const { data } = useMembersQuery(Num);
+	console.log(data);
 
 	const fetchHistory = async () => {
 		const data = await fetch(`${path}/DB/history.json`);
