@@ -14,38 +14,50 @@ import { Route, Switch } from 'react-router-dom';
 import MainWrap from './components/main/mainWrap/MainWrap';
 import { useState } from 'react';
 import Menu from './components/common/menu/Menu';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 function App() {
 	const [IsDark, setIsDark] = useState(false);
 	const [IsMenu, setIsMenu] = useState(false);
+	const queryClient = new QueryClient();
 
 	return (
-		<main className={`wrap ${useMedia()} ${IsDark ? 'dark' : ''}`}>
-			<Switch>
-				<Route exact path='/'>
-					<Header isMain={true} IsDark={IsDark} setIsDark={setIsDark} IsMenu={IsMenu} setIsMenu={setIsMenu} />
-					<MainWrap />
-				</Route>
-				<Route path='/'>
-					<Header
-						isMain={false}
-						IsDark={IsDark}
-						setIsDark={setIsDark}
-						IsMenu={IsMenu}
-						setIsMenu={setIsMenu}
-					/>
-				</Route>
-			</Switch>
-			<Route path='/department' component={Department} />
-			<Route path='/community' component={Community} />
-			<Route path='/gallery' component={Gallery} />
-			<Route path='/youtube' component={Youtube} />
-			<Route path='/members' component={Members} />
-			<Route path='/contact' component={Contact} />
-			<Route path='/detail/:id' component={Detail} />
-			<Footer />
-			<Menu IsMenu={IsMenu} setIsMenu={setIsMenu} />
-		</main>
+		<QueryClientProvider client={queryClient}>
+			<main className={`wrap ${useMedia()} ${IsDark ? 'dark' : ''}`}>
+				<Switch>
+					<Route exact path='/'>
+						<Header
+							isMain={true}
+							IsDark={IsDark}
+							setIsDark={setIsDark}
+							IsMenu={IsMenu}
+							setIsMenu={setIsMenu}
+						/>
+						<MainWrap />
+					</Route>
+					<Route path='/'>
+						<Header
+							isMain={false}
+							IsDark={IsDark}
+							setIsDark={setIsDark}
+							IsMenu={IsMenu}
+							setIsMenu={setIsMenu}
+						/>
+					</Route>
+				</Switch>
+				<Route path='/department' component={Department} />
+				<Route path='/community' component={Community} />
+				<Route path='/gallery' component={Gallery} />
+				<Route path='/youtube' component={Youtube} />
+				<Route path='/members' component={Members} />
+				<Route path='/contact' component={Contact} />
+				<Route path='/detail/:id' component={Detail} />
+				<Footer />
+				<Menu IsMenu={IsMenu} setIsMenu={setIsMenu} />
+			</main>
+			<ReactQueryDevtools />
+		</QueryClientProvider>
 	);
 }
 
